@@ -1,11 +1,11 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
+ * @authors Deividas Ovsianikovas, <your names here>, , , , ,
  * @format
  * @flow strict-local
  */
 
+
+///import libs
 import React from 'react';
 import {
   SafeAreaView,
@@ -16,15 +16,44 @@ import {
   StatusBar,
 } from 'react-native';
 
+
+//imports generic screen for react 
 import {
   Header,
-  LearnMoreLinks,
   Colors,
-  DebugInstructions,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+
+/*geolocation lib
+Install these if nto working
+https://github.com/expo/expo
+https://github.com/expo/expo/tree/master/packages/expo-location
+*/
+//import * as Location from 'expo-location';
+
+
+
+///This gets called as soon as the app is opened / updated
 const App: () => React$Node = () => {
+
+  //Can call methods soon as app is opened to test, or call from UI inputs
+  ConsoleTest();
+
+  ///print out simple success message on app load, shows in vscode output
+  function ConsoleTest()
+  {
+    console.log("App updated successfully!");
+  }
+
+  ///location method, from https://docs.expo.io/versions/latest/sdk/location/
+
+
+
+
+  //Can create methods to send data to nodejs & add to firebase db here
+
+
+  ///The markup of the app, similar to how HTML works
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -35,36 +64,16 @@ const App: () => React$Node = () => {
           <Header />
           {global.HermesInternal == null ? null : (
             <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
+              <Text style={styles.footer}>The Amigos</Text>
             </View>
           )}
           <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Learn More</Text>
               <Text style={styles.sectionDescription}>
                 Read the docs to discover what to do next:
               </Text>
             </View>
-            <LearnMoreLinks />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -72,6 +81,8 @@ const App: () => React$Node = () => {
   );
 };
 
+
+//The styling for above components, similar to way css works
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
