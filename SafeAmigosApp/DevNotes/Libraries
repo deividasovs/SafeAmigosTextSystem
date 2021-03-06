@@ -1,0 +1,6 @@
+Installed these into the project using vsCode Terminal
+https://github.com/expo/expo
+https://github.com/expo/expo/tree/master/packages/expo-location
+
+Nice answer in case you get an error installing Expo
+https://stackoverflow.com/questions/60410285/expo-version-command-shows-running-scripts-disabled-on-this-machine

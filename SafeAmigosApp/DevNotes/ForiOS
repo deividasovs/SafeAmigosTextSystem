@@ -1,0 +1,1 @@
+Will have to install cocoapods and add https://docs.expo.io/bare/installing-unimodules/ to ios/podfile to enable unimodules
