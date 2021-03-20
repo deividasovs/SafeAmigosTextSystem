@@ -1,3 +1,11 @@
+////EVAN you can the sample method here, use "exports.helloworld" as an example
+///npm install twilio
+///npm install dotenv
+
+
+
+////------------------FireBase DB------------------
+
 ///Link to our DB = https://safeamigos-66c18-default-rtdb.europe-west1.firebasedatabase.app/users.json?
 const functions = require("firebase-functions"); ///Make sure Firebase functions can be called
 
@@ -39,6 +47,7 @@ function GetPersonToCall(dbValue) {
 
     return personsName + " " + personsPhoneNumber;
 }
+////--------------End of Firebase-------------
 
 
 ///Sample function
@@ -47,8 +56,10 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
     response.send("Hello from Firebase!");
 });
 
-<<
-<< << < HEAD
+
+
+
+/////--------------------Twilio------------------------
 
 //defining credentials
 var accountSid = "AC79b407975ae9f0b4d19af767e5da6b77";
@@ -59,15 +70,17 @@ var client = require('twilio')(accountSid, authToken); //defining client variabl
 
 //create outbound call
 client.calls.create({
-        url: 'http://demo.twilio.com/docs/voice.xml', //instructions fro when call connects
-        to: '+353861054656', //who is receiving 
-        from: '+353862246656' //where call is coming from
-    }, function(err, call) {
-        if (err) {
-            console.log(err); //if error, log error in console
-        } else {
-            console.log(call.sid) //else, log completed call
-        }
-    }) ===
-    === = >>>
-    >>> > 15948 ac2670205011e678385606a092f1f576dd1
+    url: 'http://demo.twilio.com/docs/voice.xml', //instructions fro when call connects
+    to: '+353861054656', //who is receiving 
+    from: '+353862246656' //where call is coming from
+}, function(err, call) {
+    if (err) {
+        console.log(err); //if error, log error in console
+    } else {
+        console.log(call.sid) //else, log completed call
+    }
+})
+
+
+
+/////--------------------END OF Twilio------------------------
