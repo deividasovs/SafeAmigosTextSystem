@@ -1,0 +1,16 @@
+{
+  "users" : {
+    "user1" : {
+      "full_name" : "Peter Griffin",
+      "phone_number" : "086123456"
+    },
+    "user2" : {
+      "full_name" : "Louis Griffin",
+      "phone_number" : "1890222222"
+    },
+    "user3" : {
+      "full_name" : "Stewie Griffin",
+      "phone_number" : "24214512"
+    }
+  }
+}
