@@ -12,6 +12,7 @@ import {
   Text,
   Button,
   Alert, 
+  AppRegistry
 } from 'react-native';
 
 
@@ -19,8 +20,10 @@ import {
 import * as Location from 'expo-location';
 
 
+AppRegistry.registerComponent('main',() => App);
+
 ///This gets called as soon as the app is opened / updated
-const App: () => React$Node = () => {
+const App: () => ReactNode = () => {
 
 
   //Sample code courtesy of https://docs.expo.io/versions/latest/sdk/location/
@@ -53,6 +56,8 @@ const App: () => React$Node = () => {
   function ConsoleTest() {
     console.log("App updated successfully! Users location: " + userLocation);
   }
+
+
 
 
 
