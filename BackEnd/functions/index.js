@@ -1,17 +1,38 @@
-////EVAN you can the sample method here, use "exports.helloworld" as an example
 ///npm install twilio
 ///npm install dotenv
 
-
-
-////------------------FireBase DB------------------
 
 ///Link to our DB = https://safeamigos-66c18-default-rtdb.europe-west1.firebasedatabase.app/users.json?
 const functions = require("firebase-functions"); ///Make sure Firebase functions can be called
 
 //Handling the DB
 var admin = require("firebase-admin");
-admin.initializeApp();
+admin.initializeApp(); ///Required to initialize before any functions are called
+
+
+
+
+
+
+
+
+
+///Try see if you can modify this to accept a variable from the request
+exports.callInitiated = functions.https.onRequest((request, response) => {
+    response.send("SomeName 1890222222");
+    console.log("Called Successfully for SomeName");
+});
+
+
+
+
+
+
+
+
+
+////------------------FireBase DB------------------
+
 
 var db = admin.database();
 //users/user1/full_name
