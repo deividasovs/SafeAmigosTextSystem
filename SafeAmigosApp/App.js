@@ -60,9 +60,13 @@ const App: () => ReactNode = () => {
 
 
 
+  //--------Get Data from hosted Firebase link ----------------------
+  function GetData()
+  {
+    ///Fill me in 
 
 
-  //Can create methods to send data to nodejs & add to firebase db here
+  }
 
 
 
