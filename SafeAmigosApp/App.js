@@ -20,10 +20,14 @@ import {
 import * as Location from 'expo-location';
 
 
+
+
+
 AppRegistry.registerComponent('main',() => App);
 
 ///This gets called as soon as the app is opened / updated
 const App: () => ReactNode = () => {
+
 
 
   //Sample code courtesy of https://docs.expo.io/versions/latest/sdk/location/
