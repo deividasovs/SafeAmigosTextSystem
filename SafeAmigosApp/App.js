@@ -17,8 +17,11 @@ import {
 
 
 /*geolocation lib*/
+//import database from '@react-native-firebase/database';
+//import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+//import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import * as Location from 'expo-location';
-
+//import database from '@react-native-firebase/database';
 
 
 
@@ -28,8 +31,13 @@ AppRegistry.registerComponent('main',() => App);
 ///This gets called as soon as the app is opened / updated
 const App: () => ReactNode = () => {
 
-
-
+/*
+database()
+.ref('users/')
+.on('value', snapshot => {
+  console.log('User data: ', snapshot.val());
+});
+*/
   //Sample code courtesy of https://docs.expo.io/versions/latest/sdk/location/
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -90,7 +98,7 @@ const App: () => ReactNode = () => {
         />
 
         <Text style={styles.someTextStyle}>
-          Another Example
+          Another yyy
         </Text>
 
         <Text>
