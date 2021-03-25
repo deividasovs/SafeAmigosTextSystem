@@ -10,8 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-firebase/app": "^11.1.2",
+    "@react-native-firebase/database": "^11.1.2",
     "expo": "^40.0.1",
     "expo-location": "^11.0.0",
+    "firebase": "^8.3.1",
     "react": "16.13.1",
     "react-native": "0.63.4",
     "react-native-unimodules": "^0.12.0"

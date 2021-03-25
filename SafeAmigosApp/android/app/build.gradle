@@ -1,5 +1,8 @@
 apply plugin: "com.android.application"
 apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
+apply plugin: 'com.google.gms.google-services' // <- Add this line
+
+
 import com.android.build.OutputFile
 
 /**

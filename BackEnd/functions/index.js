@@ -102,6 +102,25 @@ client.calls.create({
     }
 })
 
+// Code for sending text messages. Only works for verified phone numbers.
+/*
+const accountSID = 'AC2a759941965bd0670a43ca5178083517';
+const authenticationToken = '15e0b5829aa5e1ff3861567d9a63b0bc';
+const client = require('twilio')(accountSID,authenticationToken);
+
+client.messages.create({
+    body: 'Test Text Message',
+    from: '+17149092867',
+    to: '+353871934130'
+}, function(err, message) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log(message.sid)
+    }
+})
+*/
+
 
 
 /////--------------------END OF Twilio------------------------
