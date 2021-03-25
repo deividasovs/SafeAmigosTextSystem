@@ -18,6 +18,7 @@ import {
 
 /*geolocation lib*/
 import * as Location from 'expo-location';
+import { helloWorld } from '../BackEnd/functions';
 
 
 AppRegistry.registerComponent('main',() => App);
@@ -64,7 +65,8 @@ const App: () => ReactNode = () => {
   function GetData()
   {
     ///Fill me in 
-
+    var Hello = require('/SafeAmigos/Backend/functions/index.js');
+    helloWorld();
 
   }
 
