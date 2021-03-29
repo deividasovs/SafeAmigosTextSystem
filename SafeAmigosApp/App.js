@@ -64,11 +64,8 @@ const App: () => ReactNode = () => {
   //--------Get Data from hosted Firebase link ----------------------
   function GetData()
   {
-    ///Fill me in 
     var index = require('/SafeAmigos/Backend/functions/index.js');
-    index.helloWorld();
-
-
+    console.log(index.helloWorld());
 
   }
 
