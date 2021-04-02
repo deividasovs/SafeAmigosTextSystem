@@ -2,6 +2,8 @@
 @authors 
 */
 
+const functions = require("firebase-functions");
+
 //defining credentials
 var accountSid = "AC79b407975ae9f0b4d19af767e5da6b77";
 var authToken = "ea8845abc935e2fbfcce8ee4e18b8994";

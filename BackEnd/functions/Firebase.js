@@ -31,7 +31,7 @@ exports.personValue = functions.https.onRequest((request, response) => {
 
 ////Get a random persons details that should get the text Message
 function GetPersonToCall(dbValue) {
-
+    
     i = Math.floor((Math.random() * Object.keys(dbValue).length));
 
     ///This returns the values from the ith key

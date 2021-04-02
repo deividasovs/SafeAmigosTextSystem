@@ -19,10 +19,8 @@ import {
 
 /*geolocation lib*/
 //import database from '@react-native-firebase/database';
-//import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
-//import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import * as Location from 'expo-location';
-import { helloWorld } from '../BackEnd/functions';
+//import { helloWorld } from '../BackEnd/functions';
 
 function addContact (name, number ) {
   const newReference = firebase.database()
@@ -82,8 +80,8 @@ const App: () => ReactNode = () => {
   //--------Get Data from hosted Firebase link ----------------------
   function GetData()
   {
-    var index = require('/SafeAmigos/Backend/functions/index.js');
-    console.log(index.helloWorld());
+   // var index = require('/SafeAmigos/Backend/functions/index.js');
+  //  console.log(index.helloWorld());
 
   }
 
@@ -128,8 +126,8 @@ const App: () => ReactNode = () => {
 
       <View style={{margin:20, borderRadius: 10, borderWidth: 2}}>
         <Button
-          title="Cancel"
-          color="black"
+          title="Get Help"
+          color="red"
           />  
         </View>
                

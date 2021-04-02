@@ -18,5 +18,6 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 
 ///Function that extracts the url from the browser
 exports.getURL = functions.https.onRequest((request, response) => {
+    functions.logger.info("Hello logs!", { structuredData: true });
     response.send("The request was: " + request);
 });
