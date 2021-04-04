@@ -11,24 +11,33 @@ var authToken = "ea8845abc935e2fbfcce8ee4e18b8994";
 var twilio = require('twilio');
 var client = require('twilio')(accountSid, authToken); //defining client variable
 
+//Variables setting data relating to requested user
+var usersName = "";
+var usersNumber = "";
 
-/*Old auth code*/
-// Code for sending text messages. Only works for verified phone numbers.
-/*
-const accountSID = 'AC2a759941965bd0670a43ca5178083517';
-const authenticationToken = '15e0b5829aa5e1ff3861567d9a63b0bc';
-const client = require('twilio')(accountSID,authenticationToken);
 
-*/
+///https://stackoverflow.com/questions/51861909/firebase-callable-function-not-receiving-arguments
+//Code that receives details of whom to ring
+exports.SendCall = functions.https.onCall((data, context) => {
+    usersNumber = data.phoneNumber;
+    SendCall(usersNumber);
+});
+
+///Functions same way as SendCall except for sending a text
+exports.SendText = functions.https.onCall((data, context) => {
+    usersNumber = data.phoneNumber;
+    usersName = data.name;
+    SendText(usersname, usersNumber);
+});
 
 
 
 ///Elliotts Part
-function SendCall() {
+function SendCall(numberToCall) {
     //create outbound call
     client.calls.create({
         url: 'http://demo.twilio.com/docs/voice.xml', //instructions fro when call connects
-        to: '+353861054656', //who is receiving 
+        to: numberToCall, //who is receiving 
         from: '+353862246656' //where call is coming from
     }, function (err, call) {
         if (err) {
@@ -42,12 +51,12 @@ function SendCall() {
 
 
 ///Ryans Part
-function SendText() {
+function SendText(fromName, toNumber) {
 
     client.messages.create({
-        body: 'Test Text Message',
+        body: 'Test Text Message from ' + fromName,
         from: '+17149092867',
-        to: '+353871934130'
+        to: toNumber
     }, function (err, message) {
         if (err) {
             console.log(err);

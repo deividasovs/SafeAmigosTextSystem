@@ -7,7 +7,8 @@ const FirebaseTools = require("./Firebase");
 const TwilioTools = require("./Twilio");
 
 exports.FirebaseTools = FirebaseTools.personValue;
-//exports.TwilioTools = TwilioTools.SendText;
+exports.TwilioText = TwilioTools.SendText;
+exports.TwilioCall = TwilioTools.SendCall;
 
 
 ///Sample function

@@ -25,6 +25,9 @@ import * as Location from 'expo-location';
 
 AppRegistry.registerComponent('main', () => App);
 
+
+////------------------Firebase Functionality--------------------
+
 ///Firebase android configuration tokens
 const androidConfig = {
   clientId: '110138948795-ug5ls9o3658bc64spef468tedfgi3s3e.apps.googleusercontent.com',
@@ -42,7 +45,7 @@ const androidConfig = {
 if (!firebase.apps.length) {
   firebase.initializeApp(androidConfig);
 } else {
-  firebase.app(); // if already initialized, use that one
+  firebase.app(); // if already initialized, use previous app
 }
 
 //Read data from db
@@ -53,14 +56,11 @@ firebase.database() //read
     console.log('User data: ', snapshot.val());
   });
 
-function debug(name, number) {
-  console.log("Just added " + name + " " + number);
-}
-
-// Use a local emulator in development
+//Set functions to run from emulator if in development mode
 if (__DEV__) {
+  console.log("--------in Emulator--------");
   // If you are running on a physical device, replace http://localhost with the local ip of your PC. (http://192.168.x.x)
-  firebase.functions().useFunctionsEmulator('http://localhost:5001');
+  firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
 }
 
 
@@ -80,11 +80,25 @@ function addContact(name, number) {
     .then(() => console.log('Data updated.'));
 }
 
+  ///Function to initiate a call to required phone number
+  function SendCall() {
+    //Call firebase function by name and pass json parameters relating to user
+     firebase.functions()
+      .httpsCallable('TwilioCall')({name:"testName", phoneNumber:"+353862246656"})
+      .then(response => {
+        console.log("Called Succesfully");
+      });
+
+  }
+
+///-------------------End of Firebase-------------------------
+
+
 
 ///This gets called as soon as the app is opened / updated
 const App: () => ReactNode = () => {
 
-  //Sample code courtesy of https://docs.expo.io/versions/latest/sdk/location/
+  //Sample location code courtesy of https://docs.expo.io/versions/latest/sdk/location/
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   useEffect(() => {
@@ -109,25 +123,9 @@ const App: () => ReactNode = () => {
 
   //Can call methods soon as app is opened to test, or call from UI inputs
   ConsoleTest();
-
   ///print out simple success message on app load, shows in vscode output
   function ConsoleTest() {
     console.log("App updated successfully! Users location: \n" + userLocation + "\n");
-  }
-
-  GetData();
-
-
-  //--------Get Data from hosted Firebase link ----------------------
-  function GetData() {
-
-    //firebase.functions().httpsCallable('helloWorld');
-
-    firebase.functions()
-      .httpsCallable('helloWorld')()
-      .then(response => {
-        console.log(response + " abc");
-      });
   }
 
   const [name, setName] = React.useState('');
@@ -173,6 +171,10 @@ const App: () => ReactNode = () => {
         <Button
           title="Get Help"
           color="red"
+          onPress={() => {
+            SendCall();
+          }}
+
         />
       </View>
 
