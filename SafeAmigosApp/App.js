@@ -145,6 +145,29 @@ function AddNewUser(name, number) {
 
 ///-------------------End of Firebase-------------------------
 
+//Function to contact next emergency contact if call is rejected
+function NextContact () {
+  //Call firebase function by name and pass json parameters relating to user
+  
+
+  var emergency_contacts
+  setTimeout(() => {this.setState({timePassed: true})}, 30)
+
+  for(i = 0; i < emergency_contacts.length; i++) {
+    SendCall()
+    if( this.setState({timePassed: true})) {
+      console.log("Call declined. Notifying next emergency contact")
+    } else {
+      console.log("Called Succesfully")
+    }
+  }
+
+  
+}
+
+
+
+
 ///Function to initiate a call to required phone number
 function SendCall() {
   //Call firebase function by name and pass json parameters relating to user
@@ -183,6 +206,9 @@ function ChangePage(name, number) {
     contactsName = name;
     contactsNumber = number;
     AddEmergencyContact(name, number);
+    this.setState(prevState => ({
+      emergency_contacts: [...prevState.emergency_contacts, {number}]
+    }))
   }
 }
 
