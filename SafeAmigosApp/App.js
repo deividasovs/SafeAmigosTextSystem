@@ -18,12 +18,22 @@ import {
   TextInput
 } from 'react-native';
 
-
+//import {createStackNavigator} from "@react-navigatioon/stack"
 import * as firebase from 'firebase';
 import * as Location from 'expo-location';
 //import functions from '@react-native-firebase/functions';
 
 AppRegistry.registerComponent('main', () => App);
+
+
+var usersName = "Peter";
+var usersPhoneNumber = "0862242312";
+var userLocation = "";
+var contactsName = "Homer";
+var contactsNumber = "0623214213";
+
+
+var isUserPage = true;
 
 
 ////------------------Firebase Functionality--------------------
@@ -56,6 +66,7 @@ firebase.database() //read
     console.log('User data: ', snapshot.val());
   });
 
+
 //Set functions to run from emulator if in development mode
 if (__DEV__) {
   console.log("--------in Emulator--------");
@@ -65,38 +76,119 @@ if (__DEV__) {
 
 
 //Adds contact to our Firebase Database
-function addContact(name, number) {
-  const newReference = firebase.database()
-    .ref('/users')
-    .push();
+///---TO DO--- Run this on app launch and only update last added contact  for every new contact added
+function AddEmergencyContact(name, number) {
 
-  console.log('Auto generated key: ', newReference.key);
+  var lastAddedContact = "Contact1";
 
-  newReference
-    .set({
-      full_name: name,
-      phone_number: number,
-    })
-    .then(() => console.log('Data updated.'));
+  ///Get data from db and find the last entered contact
+  firebase.database()
+    .ref('users/')
+    .once('value')
+    .then(snapshot => {
+      var i = 1;
+      ///Iterate through all available contacts, break when at contact that doesn't exist
+      while (true) {
+        if (!snapshot.child(usersPhoneNumber + "/Contact" + i).exists()) {
+          lastAddedContact = "Contact" + i;
+
+          //newReference = returned json object from db
+          const userRef = firebase.database()
+            .ref('/users/' + usersPhoneNumber);  //References all contacts added by current user
+
+          userRef
+            .update({
+              location: userLocation
+            })
+            .then(() => console.log('Data updated.'));
+
+          const contactRef = firebase.database()
+            .ref('/users/' + usersPhoneNumber)  //References all contacts added by current user
+            .child(lastAddedContact);
+
+          contactRef
+            .set({
+              Name: name,
+              Number: number
+            }).then(() => console.log('Emergency Contact data updated.'));
+
+          //Exit from loop when done
+          break;
+        }
+        i++;
+      }
+    });
 }
 
-  ///Function to initiate a call to required phone number
-  function SendCall() {
-    //Call firebase function by name and pass json parameters relating to user
-     firebase.functions()
-      .httpsCallable('TwilioCall')({name:"testName", phoneNumber:"+353862246656"})
-      .then(response => {
-        console.log("Called Succesfully");
-      });
 
-  }
+///Similar to emergency contact function above except it creates a new user entry in db 
+function AddNewUser(name, number) {
+
+  ///Get data from db and find the last entered contact
+  firebase.database()
+    .ref('users/')
+    .once('value')
+    .then(snapshot => {
+      //newReference = returned json object from db
+      const userRef = firebase.database()
+        .ref('/users/')  //References all contacts added by current user
+        .child(number);
+
+      userRef
+        .set({
+          Name: name,
+          location: userLocation,
+        })
+        .then(() => console.log('Data updated.'));
+    });
+}
 
 ///-------------------End of Firebase-------------------------
 
+///Function to initiate a call to required phone number
+function SendCall() {
+  //Call firebase function by name and pass json parameters relating to user
+  firebase.functions()
+    .httpsCallable('TwilioCall')({ fromName: usersName, fromPhoneNumber: usersPhoneNumber, toName: contactsName, toNumber: contactsNumber })
+    .then(response => {
+      console.log("Called Succesfully");
+    });
+
+}
+
+///Function to initiate a call to required phone number
+function SendText() {
+  console.log("Sending Text Message to " + contactsNumber);
+  //Call firebase function by name and pass json parameters relating to user
+  firebase.functions()
+    .httpsCallable('TwilioText')({ fromName: usersName, fromPhoneNumber: usersPhoneNumber, toName: contactsName, toNumber: contactsNumber })
+    .then(response => {
+      console.log("Called Succesfully");
+    });
+
+}
+
+//Temp function to decide if we should add a new user or add emergency contacts to that user
+function ChangePage(name, number) {
+  //If we should be at user page, then add new user to db, else add emergency contact under current Contact
+  if (isUserPage) {
+    console.log("----------Adding new user---------");
+    usersName = name;
+    usersPhoneNumber = number;
+    AddNewUser(name, number);
+    isUserPage = false;
+  }
+  else {
+    console.log("----------Adding new Emergency Contact-------");
+    contactsName = name;
+    contactsNumber = number;
+    AddEmergencyContact(name, number);
+  }
+}
 
 
-///This gets called as soon as the app is opened / updated
-const App: () => ReactNode = () => {
+///Called every time app is updated
+const App = () => {
 
   //Sample location code courtesy of https://docs.expo.io/versions/latest/sdk/location/
   const [location, setLocation] = useState(null);
@@ -114,7 +206,7 @@ const App: () => ReactNode = () => {
     })();
   }, []);
 
-  let userLocation = 'Waiting..';
+  userLocation = 'Waiting..';
   if (errorMsg) {
     userLocation = errorMsg;
   } else if (location) {
@@ -134,7 +226,7 @@ const App: () => ReactNode = () => {
   return (
     <View>
 
-      <Text style={styles.header}>Create New Contact</Text>
+      <Text style={styles.header}>Contact Details</Text>
 
       <Text style={styles.textStyle}>Name:</Text>
       <TextInput
@@ -153,7 +245,7 @@ const App: () => ReactNode = () => {
         value={number}
         placeholder="0861234567"
         keyboardType="numeric"
-        maxLength={10}
+        maxLength={15}
       // onChangeText={(text) => this.setNumber({number:text})}
       />
 
@@ -162,16 +254,18 @@ const App: () => ReactNode = () => {
           title="Add contact"
           color="black"
           onPress={() => {
-            addContact(name, number);
+            ChangePage(name, number);
+
           }}
         />
       </View>
 
       <View style={{ margin: 20, borderRadius: 10, borderWidth: 2 }}>
         <Button
-          title="Get Help"
+          title="Send Text"
           color="red"
           onPress={() => {
+            //SendText();
             SendCall();
           }}
 
