@@ -4,10 +4,11 @@ const functions = require("firebase-functions"); ///Make sure Firebase functions
 
 //After cleaning up files, import them and call their functions w/ "exports"
 const TwilioTools = require("./Twilio");
+const FirebaseTools = require("./Firebase");
 
 exports.TwilioText = TwilioTools.SendText;
 exports.TwilioCall = TwilioTools.SendCall;
-
+exports.AddEmergencyUser = FirebaseTools.addEmergencyUser;
 
 ///Sample function
 exports.helloWorld = functions.https.onRequest((request, response) => {

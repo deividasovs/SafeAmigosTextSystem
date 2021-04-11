@@ -79,51 +79,18 @@ if (__DEV__) {
 ///---TO DO--- Run this on app launch and only update last added contact  for every new contact added
 function AddEmergencyContact(name, number) {
 
-  var lastAddedContact = "Contact1";
-
-  ///Get data from db and find the last entered contact
-  firebase.database()
-    .ref('users/')
-    .once('value')
-    .then(snapshot => {
-      var i = 1;
-      ///Iterate through all available contacts, break when at contact that doesn't exist
-      while (true) {
-        if (!snapshot.child(usersPhoneNumber + "/Contact" + i).exists()) {
-          lastAddedContact = "Contact" + i;
-
-          //newReference = returned json object from db
-          const userRef = firebase.database()
-            .ref('/users/' + usersPhoneNumber);  //References all contacts added by current user
-
-          userRef
-            .update({
-              location: userLocation
-            })
-            .then(() => console.log('Data updated.'));
-
-          const contactRef = firebase.database()
-            .ref('/users/' + usersPhoneNumber)  //References all contacts added by current user
-            .child(lastAddedContact);
-
-          contactRef
-            .set({
-              Name: name,
-              Number: number
-            }).then(() => console.log('Emergency Contact data updated.'));
-
-          //Exit from loop when done
-          break;
-        }
-        i++;
-      }
+  firebase.functions()
+    .httpsCallable('AddEmergencyUser')({ fromName: usersName, fromPhoneNumber: usersPhoneNumber, name: name, toNumber: number, location: userLocation })
+    .then(response => {
+      console.log("Called Succesfully");
     });
+
 }
 
 
 ///Similar to emergency contact function above except it creates a new user entry in db 
 function AddNewUser(name, number) {
-
+  console.log("Adding New User TO Db");
   ///Get data from db and find the last entered contact
   firebase.database()
     .ref('users/')
@@ -144,30 +111,6 @@ function AddNewUser(name, number) {
 }
 
 ///-------------------End of Firebase-------------------------
-
-//Function to contact next emergency contact if call is rejected
-function NextContact () {
-  //Call firebase function by name and pass json parameters relating to user
-  
-
-  var emergency_contacts = [fromPhoneNumber]
-  setTimeout(() => {this.setState({timePassed: true})}, 30)
-
-  for(i = 0; i < emergency_contacts.length; i++) {
-    SendCall(toNumber, fromPhoneNumber)
-    if( this.setState({timePassed: true})) {
-      console.log("Call declined. Notifying next emergency contact")
-    } else {
-      console.log("Called Succesfully");
-      break;
-    }
-  }
-
-  
-}
-
-
-
 
 ///Function to initiate a call to required phone number
 function SendCall() {
@@ -207,9 +150,6 @@ function ChangePage(name, number) {
     contactsName = name;
     contactsNumber = number;
     AddEmergencyContact(name, number);
-    this.setState(prevState => ({
-      emergency_contacts: [...prevState.emergency_contacts, {number}]
-    }))
   }
 }
 
