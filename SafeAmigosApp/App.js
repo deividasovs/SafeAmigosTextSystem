@@ -150,15 +150,16 @@ function NextContact () {
   //Call firebase function by name and pass json parameters relating to user
   
 
-  var emergency_contacts
+  var emergency_contacts = [fromPhoneNumber]
   setTimeout(() => {this.setState({timePassed: true})}, 30)
 
   for(i = 0; i < emergency_contacts.length; i++) {
-    SendCall()
+    SendCall(toNumber, fromPhoneNumber)
     if( this.setState({timePassed: true})) {
       console.log("Call declined. Notifying next emergency contact")
     } else {
-      console.log("Called Succesfully")
+      console.log("Called Succesfully");
+      break;
     }
   }
 
