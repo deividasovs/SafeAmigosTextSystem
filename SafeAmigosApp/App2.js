@@ -7,7 +7,7 @@ import CreateContactsScreen from './screens/CreateContactsScreen';
 const navigator = createStackNavigator(
   {
     Home: HomeScreen,
-    Users: UsersScreen,
+    AddEmergency: UsersScreen,
     CreateContact: CreateContactsScreen
   },
   {
