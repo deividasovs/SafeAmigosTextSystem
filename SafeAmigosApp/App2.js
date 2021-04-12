@@ -1,13 +1,14 @@
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from './screens/HomeScreen';
-import ContactsScreen from './src/screens/ContactsScreen';
+import ContactsScreen from './screens/CreateContactsScreen';
+import CreateContactsScreen from './screens/CreateContactsScreen';
 
 const navigator = createStackNavigator(
   {
     Home: HomeScreen,
     Users: UsersScreen,
-    Emergency: EmergencyContactsScreen
+    CreateContact: CreateContactsScreen
   },
   {
     initialRouteName: 'Components',
