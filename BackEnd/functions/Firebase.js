@@ -72,9 +72,22 @@ exports.addEmergencyUser = functions.https.onCall((data, context) => {
 
 
 
-function GetNextPersonToCall() {
+function NextContact2(dbValue, fromNumber) {
 
-
+    while (i < Object.keys(dbValue).length){
+        i = 0;
+        personsPhoneNumber = dbValue[Object.keys(dbValue)[i]].phone_number;
+        
+        SendCall(personsPhoneNumber, fromNumber)
+        setTimeout(() => {this.setState({timePassed: true})}, 30)
+          if( this.setState({timePassed: true})) {
+            console.log("Call declined. Notifying next emergency contact")
+            i++;
+          } else {
+            console.log("Called Succesfully");
+            break;
+          }
+        }
 }
 
 ////Get a random persons details that should get the text Message

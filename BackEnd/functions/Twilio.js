@@ -80,6 +80,7 @@ function NextContact () {
       SendCall(toNumber, fromPhoneNumber)
       if( this.setState({timePassed: true})) {
         console.log("Call declined. Notifying next emergency contact")
+
       } else {
         console.log("Called Succesfully");
         break;
@@ -88,6 +89,14 @@ function NextContact () {
   
     
   }
+
+function NextContact2(toNumber, fromPhoneNumber){
+    
+    var emergencyNum = toNumber;
+
+    
+
+}
 
 
 
