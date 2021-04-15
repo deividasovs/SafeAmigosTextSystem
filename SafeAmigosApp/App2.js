@@ -7,11 +7,10 @@ import CreateContactsScreen from './screens/CreateContactsScreen';
 const navigator = createStackNavigator(
   {
     Home: HomeScreen,
-    AddEmergency: UsersScreen,
     CreateContact: CreateContactsScreen
   },
   {
-    initialRouteName: 'Components',
+    initialRouteName: 'HomeScreen',
     defaultNavigationOptions: {
       title: 'App',
     },

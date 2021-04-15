@@ -6,6 +6,8 @@ import {
   Text,
   SafeAreaView,
   Button,
+  Modal,
+  Pressable,
   Alert,
   AppRegistry,
   TextInput
@@ -29,9 +31,8 @@ const CreateContactsScreen = props => {
 <Text style={styles.textStyle}>Phone Number:</Text>
 <TextInput
   style={styles.input}
-  //onChangeText={setNumber}
- // value={number}
-  placeholder="0861234567"
+  onChangeText={setNumber}
+  value={number}
   keyboardType="numeric"
   maxLength={15}
 // onChangeText={(text) => this.setNumber({number:text})}
@@ -54,6 +55,24 @@ const CreateContactsScreen = props => {
             onPress={() => props.navigation.navigate('Home')};
           }}
         />
+
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      />
+
+      <Text style={styles.modalText}>Hello World!</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
       </View>
     </SafeAreaView>
   );
