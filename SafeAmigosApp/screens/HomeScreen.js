@@ -14,20 +14,38 @@ import {
 const HomeScreen = props => {
   return(
   <SafeAreaView>
-    <Text>Welcome Back User</Text>
-    <Button
-    onPress={() => props.navigation.navigate('Users')}
-    title = "Add User"
-    />
-    <Button style={styles.button}
+    <Text style={{ textAlign: "center", fontSize: 30, padding: 20}}>Welcome Back!</Text>
+    <View style={{ margin: 20, borderRadius: 10, borderWidth: 2 }}>
+       <Button style={styles.button}
     title = "Send Distress Signal"
+    color = "black"
     onPress={() => {
             SendCall();
           }}
     />
+    </View>
+   
+    <View style={{ margin: 20, borderRadius: 10, borderWidth: 2, }}>
     <Button
     title = "Add Emergency Contact"
+    color= "black"
+    onPress={() => {
+      // go to create contacts page
+        }}
+  />
+    </View>
+
+    <View style={{ margin: 20, borderRadius: 10, borderWidth: 2 }}>
+       <Button style={styles.button}
+    title = "Notifications"
+    color = "black"
+    onPress={() => {
+        // go to notifcations page
+          }}
     />
+    </View>
+    <Text style = {{paddingTop: 20, fontSize: 20, marginLeft: 20}}>Your Location: {"\n"}
+    {userLocation}</Text>
     </SafeAreaView>
   );
 };

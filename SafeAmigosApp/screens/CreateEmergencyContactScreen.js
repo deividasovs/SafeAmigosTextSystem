@@ -13,13 +13,13 @@ import {
   TextInput
 } from 'react-native';
 
-const CreateContactsScreen = props => {
+const CreateEmergencyContactScreen = props => {
   return(
   <SafeAreaView>
     <Text style={styles.header}>Contact Details</Text>
 
 <Text style={styles.textStyle}>Name:</Text>
-<TextInput
+<TextInput ref={input => { this.textInputName = input }}
   style={styles.input}
   //onChangeText={setName}
   //value={text}
@@ -29,10 +29,10 @@ const CreateContactsScreen = props => {
 //onChangeText={name => this.setName({name})}
 />
 <Text style={styles.textStyle}>Phone Number:</Text>
-<TextInput
+<TextInput ref={input => { this.textInputNumber = input }}
   style={styles.input}
-  onChangeText={setNumber}
-  value={number}
+//  onChangeText={setNumber}
+ // value={number}
   keyboardType="numeric"
   maxLength={15}
 // onChangeText={(text) => this.setNumber({number:text})}
@@ -42,7 +42,9 @@ const CreateContactsScreen = props => {
           title="Add contact"
           color="black"
           onPress={() => {
-            console.log("Contact added sucessfully");
+            this.textInputNumber.clear();
+            this.textInputName.clear();
+            
           }}
         />
       </View>
@@ -51,28 +53,10 @@ const CreateContactsScreen = props => {
         <Button
           title="Home"
           color="black"
-          onPress={() => {
-            onPress={() => props.navigation.navigate('Home')};
-          }}
+        //  onPress={() => {
+        //    onPress={() => props.navigation.navigate('Home')};
+       //   }}
         />
-
-        <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      />
-
-      <Text style={styles.modalText}>Hello World!</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
       </View>
     </SafeAreaView>
   );
@@ -97,4 +81,4 @@ const styles = StyleSheet.create({
     }
   });
 
-export default CreateContactsScreen;
+export default CreateEmergencyContactScreen;
