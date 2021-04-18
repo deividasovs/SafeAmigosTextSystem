@@ -48,6 +48,14 @@ exports.SendText = functions.https.onCall((data, context) => {
     SendText(fromName, fromPhoneNumber, toName, toNumber);
 });
 
+exports.DeclineContactRequest = functions.https.onCall((data, context) => {
+    fromName = data.fromName;
+    fromPhoneNumber = data.fromPhoneNumber;
+    toName = data.toName;
+    toNumber = data.toNumber;
+    DeclineContactRequest(fromName, fromPhoneNumber, toName, toNumber);
+});
+
 
 
 
@@ -107,6 +115,38 @@ function SendText(fromName, fromNum, toName, toNumber) {
         body: 'Test Text Message from ' + fromName + ' for ' + toName,
         from: fromNum,
         to: toNumber
+    }, function (err, message) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(message.sid)
+        }
+    })
+}
+
+function SendContactRequest(fromName, fromNum, toName, toNumber) {
+
+    client.messages.create({
+        body: 'You have been requested to be an emergency contact for: ' + fromName + 
+        'on the SafeAmigos App. To accept, please click the following link: https://us-central1-safeamigos-66c18.cloudfunctions.net/AddEmergencyUser' +   
+        'To decline, please click the following link: https://us-central1-safeamigos-66c18.cloudfunctions.net/DeclineContactRequest',
+        from: fromNum,
+        to: toNumber
+    }, function (err, message) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(message.sid)
+        }
+    })
+}
+
+function DeclineContactRequest(fromName, fromNum, toName, toNumber) {
+
+    client.messages.create({
+        body: 'The request for ' + toName + 'to be added as an emergency contact on your SafeAmigos profile has been declined',
+        from: toNumber,
+        to: fromNumber
     }, function (err, message) {
         if (err) {
             console.log(err);

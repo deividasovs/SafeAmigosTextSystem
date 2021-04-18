@@ -135,6 +135,17 @@ function SendText() {
 
 }
 
+function DeclineContactRequest() {
+  console.log("Sending Text Message to " + contactsNumber);
+  //Call firebase function by name and pass json parameters relating to user
+  firebase.functions()
+    .httpsCallable('DeclineContactRequest')({ fromName: usersName, fromPhoneNumber: usersPhoneNumber, toName: contactsName, toNumber: contactsNumber })
+    .then(response => {
+      console.log("Request Declined Succesfully");
+    });
+
+}
+
 //Temp function to decide if we should add a new user or add emergency contacts to that user
 function ChangePage(name, number) {
   //If we should be at user page, then add new user to db, else add emergency contact under current Contact

@@ -7,6 +7,7 @@ const TwilioTools = require("./Twilio");
 const FirebaseTools = require("./Firebase");
 
 exports.TwilioText = TwilioTools.SendText;
+exports.DeclineContactRequest = TwilioTools.DeclineContactRequest;
 exports.TwilioCall = TwilioTools.SendCall;
 exports.AddEmergencyUser = FirebaseTools.addEmergencyUser;
 
