@@ -156,6 +156,21 @@ function DeclineContactRequest(fromName, fromNum, toName, toNumber) {
     })
 }
 
+// npm install --save haversine-distance
+// https://www.npmjs.com/package/haversine-distance
+function haversineDistance () {
+    const haversine = require("haversine-distance");
+
+    // TODO Variables to be taken from the database
+    const location1 = { latitude: 37.8136, longitude: 144.9631 }
+    const location2 = { latitude: 33.8650, longitude: 151.2094 }
+
+    var meterDistance = (haversine(location1, location2));
+    var kilometerDistance = (haversine(location1, location2) / 1000)
+    console.log(meterDistance) // in meters
+    console.log(kilometerDistance) // in KM
+}
+
 /*
 ////Get a random persons details that should get the text Message
 function GetPersonToCall(dbValue) {

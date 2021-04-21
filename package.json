@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "dotenv": "^8.2.0",
+    "haversine-distance": "^1.2.1",
     "twilio": "^3.58.0"
   }
 }
