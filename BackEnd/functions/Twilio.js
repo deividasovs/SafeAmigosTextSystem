@@ -29,9 +29,8 @@ var toName = "";
 var toNumber = "";
 
 
-
 ///https://stackoverflow.com/questions/51861909/firebase-callable-function-not-receiving-arguments
-//Code that receives details of whom to ring
+//receiving details of whom to ring
 exports.SendCall = functions.https.onCall((data, context) => {
     fromPhoneNumber = data.fromPhoneNumber;
     toNumber = data.toNumber;
@@ -39,7 +38,7 @@ exports.SendCall = functions.https.onCall((data, context) => {
 });
 
 
-///Functions same way as SendCall except for sending a text
+///Functions works same as SendCall, except for sending text messages
 exports.SendText = functions.https.onCall((data, context) => {
     fromName = data.fromName;
     fromPhoneNumber = data.fromPhoneNumber;
@@ -57,16 +56,14 @@ exports.DeclineContactRequest = functions.https.onCall((data, context) => {
 });
 
 
-
-
-///Elliotts Part
+///Elliott's Part
 function SendCall(numberToCall, fromNum) {
     //create outbound call
     client.calls.create({
         url: 'http://demo.twilio.com/docs/voice.xml', //instructions fro when call connects
         to: numberToCall, //who is receiving 
         from: fromPhoneNumber //where call is coming from
-    }, function (err, call) {
+    }, function(err, call) {
         if (err) {
             console.log(err); //if error, log error in console
         } else {
@@ -75,35 +72,29 @@ function SendCall(numberToCall, fromNum) {
     })
 }
 
-//Padraigs Part
+//Padraig's Part
 //Function to contact next emergency contact if call is rejected
-function NextContact () {
+function NextContact() {
     //Call firebase function by name and pass json parameters relating to user
-    
-  
     var emergency_contacts = [fromPhoneNumber]
-    setTimeout(() => {this.setState({timePassed: true})}, 30)
-  
-    for(i = 0; i < emergency_contacts.length; i++) {
-      SendCall(toNumber, fromPhoneNumber)
-      if( this.setState({timePassed: true})) {
-        console.log("Call declined. Notifying next emergency contact")
+    setTimeout(() => { this.setState({ timePassed: true }) }, 30)
 
-      } else {
-        console.log("Called Succesfully");
-        break;
-      }
+    for (i = 0; i < emergency_contacts.length; i++) {
+        SendCall(toNumber, fromPhoneNumber)
+        if (this.setState({ timePassed: true })) {
+            console.log("Call declined. Notifying next emergency contact")
+        } else {
+            console.log("Called Succesfully");
+            break;
+        }
     }
-  
-    
-  }
 
-function NextContact2(toNumber, fromPhoneNumber){
-    
+
+}
+
+function NextContact2(toNumber, fromPhoneNumber) {
+
     var emergencyNum = toNumber;
-
-    
-
 }
 
 
@@ -115,7 +106,7 @@ function SendText(fromName, fromNum, toName, toNumber) {
         body: 'Test Text Message from ' + fromName + ' for ' + toName,
         from: fromNum,
         to: toNumber
-    }, function (err, message) {
+    }, function(err, message) {
         if (err) {
             console.log(err);
         } else {
@@ -124,15 +115,16 @@ function SendText(fromName, fromNum, toName, toNumber) {
     })
 }
 
+//function for sending offer of emergency contact role
 function SendContactRequest(fromName, fromNum, toName, toNumber) {
 
     client.messages.create({
-        body: 'You have been requested to be an emergency contact for: ' + fromName + 
-        'on the SafeAmigos App. To accept, please click the following link: https://us-central1-safeamigos-66c18.cloudfunctions.net/AddEmergencyUser' +   
-        'To decline, please click the following link: https://us-central1-safeamigos-66c18.cloudfunctions.net/DeclineContactRequest',
+        body: 'You have been requested to be an emergency contact for: ' + fromName +
+            'on the SafeAmigos App. To accept, please click the following link: https://us-central1-safeamigos-66c18.cloudfunctions.net/AddEmergencyUser' +
+            'To decline, please click the following link: https://us-central1-safeamigos-66c18.cloudfunctions.net/DeclineContactRequest',
         from: fromNum,
         to: toNumber
-    }, function (err, message) {
+    }, function(err, message) {
         if (err) {
             console.log(err);
         } else {
@@ -141,13 +133,14 @@ function SendContactRequest(fromName, fromNum, toName, toNumber) {
     })
 }
 
+//function for if someone declines responsibility of emergency contact
 function DeclineContactRequest(fromName, fromNum, toName, toNumber) {
 
     client.messages.create({
         body: 'The request for ' + toName + 'to be added as an emergency contact on your SafeAmigos profile has been declined',
         from: toNumber,
         to: fromNumber
-    }, function (err, message) {
+    }, function(err, message) {
         if (err) {
             console.log(err);
         } else {
@@ -158,7 +151,7 @@ function DeclineContactRequest(fromName, fromNum, toName, toNumber) {
 
 // npm install --save haversine-distance
 // https://www.npmjs.com/package/haversine-distance
-function haversineDistance () {
+function haversineDistance() {
     const haversine = require("haversine-distance");
 
     // TODO Variables to be taken from the database
