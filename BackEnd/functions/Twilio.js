@@ -28,36 +28,26 @@ var fromPhoneNumber = "";
 var toName = "";
 var toNumber = "";
 
+console.log(FirebaseTools.GetPersonToCall("0862242312"));
 
 ///https://stackoverflow.com/questions/51861909/firebase-callable-function-not-receiving-arguments
 //receiving details of whom to ring
 exports.SendCall = functions.https.onCall((data, context) => {
-    fromPhoneNumber = data.fromPhoneNumber;
-    toNumber = data.toNumber;
-    SendCall(toNumber, fromPhoneNumber);
+    SendCall( data.fromPhoneNumber, data.location);
 });
 
-
-///Functions works same as SendCall, except for sending text messages
+///Functions same way as SendCall except for sending a text
 exports.SendText = functions.https.onCall((data, context) => {
-    fromName = data.fromName;
-    fromPhoneNumber = data.fromPhoneNumber;
-    toName = data.toName;
-    toNumber = data.toNumber;
-    SendText(fromName, fromPhoneNumber, toName, toNumber);
+    SendText(data.fromName, data.fromPhoneNumber, data.toName, data.toNumber);
 });
 
 exports.DeclineContactRequest = functions.https.onCall((data, context) => {
-    fromName = data.fromName;
-    fromPhoneNumber = data.fromPhoneNumber;
-    toName = data.toName;
-    toNumber = data.toNumber;
-    DeclineContactRequest(fromName, fromPhoneNumber, toName, toNumber);
+    DeclineContactRequest(data.fromName, data.fromPhoneNumber, data.toName, data.toNumber);
 });
 
 
 ///Elliott's Part
-function SendCall(numberToCall, fromNum) {
+function SendCall(numberToCall, location) {
     //create outbound call
     client.calls.create({
         url: 'http://demo.twilio.com/docs/voice.xml', //instructions fro when call connects
@@ -92,8 +82,10 @@ function NextContact() {
 
 }
 
-function NextContact2(toNumber, fromPhoneNumber) {
 
+
+
+function NextContact2(toNumber, fromPhoneNumber) {
     var emergencyNum = toNumber;
 }
 
@@ -164,16 +156,5 @@ function haversineDistance() {
     console.log(kilometerDistance) // in KM
 }
 
-/*
-////Get a random persons details that should get the text Message
-function GetPersonToCall(dbValue) {
 
-    i = Math.floor((Math.random() * Object.keys(dbValue).length));
 
-    ///This returns the values from the ith key
-    //console.log(dbValue[Object.keys(dbValue)[i]]);
-    personsName = dbValue[Object.keys(dbValue)[i]].full_name;
-    personsPhoneNumber = dbValue[Object.keys(dbValue)[i]].phone_number;
-
-    return personsName + " " + personsPhoneNumber;
-}*/

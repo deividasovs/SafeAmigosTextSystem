@@ -200,11 +200,9 @@ const App = () => {
     const [name, setName] = React.useState('');
     const [number, setNumber] = React.useState('');
 
-    return ( <
-        View >
+    return ( <View >
 
-        <
-        Text style = { styles.header } > Contact Details < /Text>
+        <Text style = { styles.header } > Contact Details < /Text>
 
         <
         Text style = { styles.textStyle } > Name: < /Text> <

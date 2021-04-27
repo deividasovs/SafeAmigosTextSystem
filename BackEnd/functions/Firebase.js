@@ -4,6 +4,7 @@ const functions = require("firebase-functions"); ///Make sure Firebase functions
 
 //Handling the DB
 var admin = require("firebase-admin");
+const { object } = require("firebase-functions/lib/providers/storage");
 admin.initializeApp(); ///Required to initialize before any functions are called
 
 var db = admin.database();
@@ -15,19 +16,6 @@ var ref = db.ref("users/");
 var personsName = "";
 var personsPhoneNumber = "";
 
-
-///When this link is opened, call this function. 
-exports.personValue = functions.https.onRequest((request, response) => {
-    // Attach an asynchronous callback to read the data at our posts reference
-    ref.on("value", function (snapshot) {
-        // console.log(snapshot.val());
-        response.send(GetPersonToCall(snapshot.val()));
-    }, function (errorObject) { ///Else if there was an error getting the data
-        console.log("The read failed: " + errorObject.code);
-    });
-});
-
-
 //Add new emergency user under our user that's already in the DB
 //Only call me if it was accepted by the user
 exports.addEmergencyUser = functions.https.onCall((data, context) => {
@@ -36,10 +24,10 @@ exports.addEmergencyUser = functions.https.onCall((data, context) => {
 
 
     ///Get required data that was called from our app
-    usersPhoneNumber = data.usersPhoneNumber;
+    usersPhoneNumber = data.usersPhoneNumber;//Current users number
     userLocation = data.location;
-    name = data.name;
-    number = data.toNumber;
+    name = data.name; //Name to be added
+    number = data.toNumber; ///Number to be added
 
     ///Get data from db and find the last entered contact
     ///Change db back to firebase.database if putting back in app.js in React
@@ -47,19 +35,25 @@ exports.addEmergencyUser = functions.https.onCall((data, context) => {
         .once('value')
         .then(snapshot => {
             var i = 1;
-            ///Iterate through all available contacts, break when at contact that doesn't exist
+            ///Iterate through all available emergency contacts, break when at contact that doesn't exist
             while (true) {
-                if (!snapshot.child(usersPhoneNumber + "/Contact" + i).exists()) {
+                //If Emergency Contacts field does not currently exist, add it to db
+                if (!snapshot.child(usersPhoneNumber + "/EmergencyContacts").exists()) {
+                    db.ref('/users/' + usersPhoneNumber)  //References all contacts added by current user
+                        .child("EmergencyContacts");
+                }
+                if (!snapshot.child(usersPhoneNumber + "/EmergencyContacts/Contact" + i).exists()) {
                     lastAddedContact = "Contact" + i;
 
                     const contactRef = db
-                        .ref('/users/' + usersPhoneNumber)  //References all contacts added by current user
-                        .child(lastAddedContact);
+                        .ref('/users/' + usersPhoneNumber + "/EmergencyContacts/");  //References all contacts added by current user
+                    //  .child(lastAddedContact);
 
                     contactRef
                         .set({
-                            Name: name,
-                            Number: number
+                            [lastAddedContact]: number
+                            //Name: name,
+                            // Number: number
                         }).then(() => console.log('Emergency Contact data updated.'));
 
                     //Exit from loop when done
@@ -74,31 +68,80 @@ exports.addEmergencyUser = functions.https.onCall((data, context) => {
 
 function NextContact2(dbValue, fromNumber) {
 
-    while (i < Object.keys(dbValue).length){
+    while (i < Object.keys(dbValue).length) {
         i = 0;
         personsPhoneNumber = dbValue[Object.keys(dbValue)[i]].phone_number;
-        
+
         SendCall(personsPhoneNumber, fromNumber)
-        setTimeout(() => {this.setState({timePassed: true})}, 30)
-          if( this.setState({timePassed: true})) {
+        setTimeout(() => { this.setState({ timePassed: true }) }, 30)
+        if (this.setState({ timePassed: true })) {
             console.log("Call declined. Notifying next emergency contact")
             i++;
-          } else {
+        } else {
             console.log("Called Succesfully");
             break;
-          }
         }
+    }
 }
 
-////Get a random persons details that should get the text Message
-function GetPersonToCall(dbValue) {
+////Function gets db details from database and finds correct user to call based on if they are listed as an emergency contact
+function GetPersonToCall(personsNumber, personsLocation) {
 
-    i = Math.floor((Math.random() * Object.keys(dbValue).length));
+    // Attach an asynchronous callback to read the data at our posts reference
+    ref.on("value", function (snapshot) {
+        dbValue = snapshot.val();
+        i = 0;
 
-    ///This returns the values from the ith key
-    //console.log(dbValue[Object.keys(dbValue)[i]]);
-    personsName = dbValue[Object.keys(dbValue)[i]].full_name;
-    personsPhoneNumber = dbValue[Object.keys(dbValue)[i]].phone_number;
+        /*
+        Iterate through database here to call person at minimum distance. Set i equal to position
+        of data entry of minimum distance. Might need to use a priority queue adding each distance to it.
+        */
 
-    return personsName + " " + personsPhoneNumber;
+        ///2 different ways of iterating through the db below
+        //Iterative way, go through all emergency contacts and try contact until successful
+        while (i < Object.keys(dbValue[personsNumber].EmergencyContacts).length)
+        {
+            console.log(i + " User Num: " + Object.values(dbValue[personsNumber].EmergencyContacts)[i]);
+
+            toCallNumber = Object.values(dbValue[personsNumber].EmergencyContacts)[i];
+
+            //Iterate through outer array finding user fields correlating with the one we want to call
+            contactsLocation = dbValue[toCallNumber].Location;
+            contactsName = dbValue[toCallNumber].Name;
+
+            console.log(contactsName + " " + contactsLocation);
+
+            ///Could iterate once, add all distances to priortiy queue here
+            ///Check if response accepted, if not continue w loop.
+            //else 
+
+            //Return number of person we want to call
+            return toCallNumber;
+            i += 1;
+        }
+
+        //Recursive way
+        //returnContact(dbValue[personsNumber].EmergencyContacts);
+
+    }, function (errorObject) { ///Else if there was an error getting the data
+        console.log("The read failed: " + errorObject.code);
+        return "Error";
+    });
+
+
 }
+
+///Recursive function that calls itself until it finds an available number to call.
+//Can also be called at specific number position
+//Could pass the priorityQueue as a param to "emergencyContacts"
+///----Not in use yet----
+function returnContact(emergencyContacts, i) {
+    if (i >= Object.keys(dbValue[personsNumber].EmergencyContacts).length) return null;
+
+    //If we haven't found a person to call, keep going until we've reached the end of the db
+    returnContact(emergencyContacts, i++);
+
+}
+
+///Allow functions to be called by other files
+module.exports = { GetPersonToCall };
