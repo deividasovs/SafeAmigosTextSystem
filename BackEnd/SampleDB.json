@@ -1,0 +1,19 @@
+{
+  "users": {
+    "0862242312": {
+      "EmergencyContacts": {
+        "Contact1": "+353862246656"
+      },
+      "Location": 0,
+      "Name": "Jimbob"
+    },
+    "1890222222": {
+      "Name": "Test",
+      "location": "{\"timestamp\":1619169281963,\"mocked\":false,\"coords\":{\"altitude\":31.81574625098053,\"heading\":90,\"latitude\":37.4219463,\"longitude\":-122.083981,\"altitudeAccuracy\":150,\"speed\":0,\"accuracy\":602}}"
+    },
+    "+353862246656": {
+      "Name": "John Smith",
+      "location": "{\"timestamp\":1619174180277,\"mocked\":false,\"coords\":{\"altitude\":42.79259943993602,\"heading\":90,\"latitude\":37.4219463,\"longitude\":-122.083981,\"altitudeAccuracy\":150,\"speed\":0,\"accuracy\":602}}"
+    }
+  }
+}

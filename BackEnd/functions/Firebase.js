@@ -4,7 +4,7 @@ const functions = require("firebase-functions"); ///Make sure Firebase functions
 
 //Handling the DB
 var admin = require("firebase-admin");
-const { object } = require("firebase-functions/lib/providers/storage");
+//const { object } = require("firebase-functions/lib/providers/storage"); whats this for?
 admin.initializeApp(); ///Required to initialize before any functions are called
 
 var db = admin.database();
@@ -21,8 +21,6 @@ var personsPhoneNumber = "";
 exports.addEmergencyUser = functions.https.onCall((data, context) => {
 
     var lastAddedContact = "Contact1";
-
-
     ///Get required data that was called from our app
     usersPhoneNumber = data.usersPhoneNumber;//Current users number
     userLocation = data.location;
@@ -84,8 +82,10 @@ function NextContact2(dbValue, fromNumber) {
     }
 }
 
+
+
 ////Function gets db details from database and finds correct user to call based on if they are listed as an emergency contact
-function GetPersonToCall(personsNumber, personsLocation) {
+exports.GetPersonToCall = function(personsNumber, personsLocation) {
 
     // Attach an asynchronous callback to read the data at our posts reference
     ref.on("value", function (snapshot) {
@@ -144,4 +144,4 @@ function returnContact(emergencyContacts, i) {
 }
 
 ///Allow functions to be called by other files
-module.exports = { GetPersonToCall };
+///module.exports = { GetPersonToCall }; This breaks file for some reason

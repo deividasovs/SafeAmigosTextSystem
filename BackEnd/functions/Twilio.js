@@ -1,7 +1,3 @@
-/*
-@authors 
-*/
-
 const functions = require("firebase-functions");
 const FirebaseTools = require("./Firebase");
 
@@ -12,7 +8,6 @@ admin.initializeApp(); ///Required to initialize before any functions are called
 var db = admin.database();
 //References the database key to use
 var ref = db.ref("users/");*/
-
 
 //defining Twilio credentials
 var accountSid = "AC79b407975ae9f0b4d19af767e5da6b77";
@@ -28,7 +23,7 @@ var fromPhoneNumber = "";
 var toName = "";
 var toNumber = "";
 
-console.log(FirebaseTools.GetPersonToCall("0862242312"));
+//console.log(FirebaseTools.GetPersonToCall("0862242312"));
 
 ///https://stackoverflow.com/questions/51861909/firebase-callable-function-not-receiving-arguments
 //receiving details of whom to ring

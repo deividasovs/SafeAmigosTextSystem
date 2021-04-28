@@ -6,14 +6,15 @@ const functions = require("firebase-functions"); ///Make sure Firebase functions
 const TwilioTools = require("./Twilio");
 const FirebaseTools = require("./Firebase");
 
+
+exports.AddEmergencyUser = FirebaseTools.addEmergencyUser;
 exports.TwilioText = TwilioTools.SendText;
 exports.DeclineContactRequest = TwilioTools.DeclineContactRequest;
 exports.TwilioCall = TwilioTools.SendCall;
-exports.AddEmergencyUser = FirebaseTools.addEmergencyUser;
+
 
 ///Sample function
 exports.helloWorld = functions.https.onRequest((request, response) => {
-    functions.logger.info("Hello logs!", { structuredData: true });
     response.send("Hello from Firebase!");
 });
 
