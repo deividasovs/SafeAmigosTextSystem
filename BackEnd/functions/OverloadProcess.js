@@ -6,20 +6,24 @@
 */
 
 const FirebaseTools = require("./Firebase");
+const TwilioTools = require("./Twilio");
 
 var contactQueue = [];
 
+var ShouldStart = false;
 
-var personToProces = null;
+exports.AddNewUser = functions.https.onCall((data, context) => {
+    AddUser(data.Name, data, PhoneNumber, data.Location);
+});
 
 
-//If the user to call already exists in our queue, return false. Only allow them to be entered once
-exports.AddNewUser = function ContainsUser(name, number, location) {
+//Add user to our queue to be processed
+function AddUser(name, number, location) {
 
     for (var i = 0; i < contactQueue.length; i++) {
-        if(contactQueue[i].number = this.number)
-        {
-            return false; ////------------May have to turn this intoa  callback instead!!!!-------------
+        ///if our queue already contains this number, quit the function.
+        if (contactQueue[i].number = number) {
+            return false; ////------------May have to turn this into a callback instead!!!!-------------
         }
     }
 
@@ -28,16 +32,21 @@ exports.AddNewUser = function ContainsUser(name, number, location) {
         Number: number,
         Location: location
     }
+    ShouldStart = true;
 
     contactQueue.push(newPerson);
+    ContinuosProcess();
 }
 
-///keep clearing queue the whole time while there is something to process
-while (!contactQueue.isEmpty()) {
-    personToProces = contactQueue.shift(); ///Shift for queue, pop for Stack
-    SendMessage(personToProces);
+///keep clearing queue the whole time while there is a user to process
+function ContinuosProcess() {
+    if (ShouldStart) {
+        while (!contactQueue.isEmpty()) {
+            var personToProces = contactQueue.shift(); ///Shift for queue, pop for Stack
 
-    ///Once we found our person to message, find the correct user to contact
-    FirebaseTools.GetPersonToCall(personToProces.Number, personToProces.Location);
+            ///Once we found our person to message, find the correct user to contact
+            TwilioTools.SendText("", "", "", FirebaseTools.GetPersonToCall(personToProces.Number, personToProces.Location), "");
+        }
+        if(!contactQueue.isEmpty()) ShouldStart = false;
+    }
 }
-

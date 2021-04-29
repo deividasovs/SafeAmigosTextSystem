@@ -30,7 +30,7 @@ var usersName = "Peter";
 var usersPhoneNumber = "0862242312";
 var userLocation = "";
 var contactsName = "Homer";
-var contactsNumber = "0623214213";
+var contactsNumber = "+nuum";
 
 
 var isUserPage = true;
@@ -58,7 +58,7 @@ if (!firebase.apps.length) {
   firebase.app(); // if already initialized, use previous app
 }
 
-
+/*
 //Read data from db
 firebase.database() //read
   .ref('users/')
@@ -66,26 +66,25 @@ firebase.database() //read
   .then(snapshot => {
     console.log('User data: ', snapshot.val());
   });
-
+*/
 
 //Set functions to run from emulator if in development mode
 if (__DEV__) {
   console.log("--------in Emulator--------");
   // If you are running on a physical device, replace http://localhost with the local ip of your PC. (http://192.168.x.x)
-  firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
+  ///firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
 }
 
 
 //Adds contact to our Firebase Database
 ///---TO DO--- Run this on app launch and only update last added contact  for every new contact added
 function AddEmergencyContact(name, number) {
-
   firebase.functions()
-    .httpsCallable('helloWorld')({ fromName: usersName, fromPhoneNumber: usersPhoneNumber, name: name, toNumber: number, location: userLocation })
+    .httpsCallable('EmergencyContact')({ fromName: usersName, fromPhoneNumber: usersPhoneNumber, name: name, toNumber: number, location: userLocation })
     .then(response => {
       console.log("Add Emergency User called succesfully!");
     })
-    .catch((error) => console.log("Issue adding emergency User request " + error));
+    .catch((error) => console.log("****Issue adding emergency User request****" + error));
 
 }
 
@@ -116,11 +115,20 @@ function AddNewUser(name, number) {
 
 ///Function to initiate a call to required phone number
 function SendCall() {
+/* Add our object to queue to get processed
+  firebase.functions()
+  .httpsCallable('AddNewUser')({Name: usersName, PhoneNumber: usersPhoneNumber, Location: location})
+  .then(response => {
+    console.log("Calling " + contactsNumber);
+  });
+*/
+
+
   //Call firebase function by name and pass json parameters relating to user
   firebase.functions()
-    .httpsCallable('TwilioCall')({ fromName: usersName, fromPhoneNumber: usersPhoneNumber, toName: contactsName, toNumber: contactsNumber })
+    .httpsCallable('TwilioCall')({fromPhoneNumber: usersPhoneNumber, toNumber: contactsNumber, Location: userLocation})
     .then(response => {
-      console.log("Called Succesfully");
+      console.log("Calling " + contactsNumber);
     });
 
 }

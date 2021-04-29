@@ -12,17 +12,14 @@ var db = admin.database();
 //References the database key to use
 var ref = db.ref("users/");
 
-//Vars to hold data about the person to call
-var personsName = "";
-var personsPhoneNumber = "";
+
 
 //Add new emergency user under our user that's already in the DB
-//Only call me if it was accepted by the user
-exports.addEmergencyUser = functions.https.onCall((data, context) => {
-
+exports.emergencyContact = functions.https.onCall((data, context) => {
+    
     var lastAddedContact = "Contact1";
     ///Get required data that was called from our app
-    usersPhoneNumber = data.usersPhoneNumber;//Current users number
+    usersPhoneNumber = data.fromPhoneNumber;//Current users number
     userLocation = data.location;
     name = data.name; //Name to be added
     number = data.toNumber; ///Number to be added
@@ -63,14 +60,13 @@ exports.addEmergencyUser = functions.https.onCall((data, context) => {
 });
 
 
-
 function NextContact2(dbValue, fromNumber) {
 
     while (i < Object.keys(dbValue).length) {
         i = 0;
-        personsPhoneNumber = dbValue[Object.keys(dbValue)[i]].phone_number;
 
-        SendCall(personsPhoneNumber, fromNumber)
+        ///Send call to users phone number from users phone number
+        SendCall(dbValue[Object.keys(dbValue)[i]].phone_number, fromNumber)
         setTimeout(() => { this.setState({ timePassed: true }) }, 30)
         if (this.setState({ timePassed: true })) {
             console.log("Call declined. Notifying next emergency contact")
@@ -112,16 +108,19 @@ exports.GetPersonToCall = function(personsNumber, personsLocation) {
             console.log(contactsName + " " + contactsLocation);
 
             ///Could iterate once, add all distances to priortiy queue here
-            ///Check if response accepted, if not continue w loop.
+            ///Wait, Check if response accepted, if not continue w loop.
             //else 
+            ///Nobody is willing to help :(
 
-            //Return number of person we want to call
-            return toCallNumber;
+            //Return number of person we want to call 
+            //--------may have to create callback----------
             i += 1;
-        }
 
-        //Recursive way
-        //returnContact(dbValue[personsNumber].EmergencyContacts);
+
+            return toCallNumber;
+        }   
+
+       
 
     }, function (errorObject) { ///Else if there was an error getting the data
         console.log("The read failed: " + errorObject.code);

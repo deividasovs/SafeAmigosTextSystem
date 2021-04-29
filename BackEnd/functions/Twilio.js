@@ -28,12 +28,12 @@ var toNumber = "";
 ///https://stackoverflow.com/questions/51861909/firebase-callable-function-not-receiving-arguments
 //receiving details of whom to ring
 exports.SendCall = functions.https.onCall((data, context) => {
-    SendCall( data.fromPhoneNumber, data.location);
+    SendCall(data.toNumber, data.fromPhoneNumber, data.Location);
 });
 
 ///Functions same way as SendCall except for sending a text
 exports.SendText = functions.https.onCall((data, context) => {
-    SendText(data.fromName, data.fromPhoneNumber, data.toName, data.toNumber);
+    SendText(data.fromName, data.fromPhoneNumber, data.toName, data.toNumber, data.Location);
 });
 
 exports.DeclineContactRequest = functions.https.onCall((data, context) => {
@@ -42,7 +42,9 @@ exports.DeclineContactRequest = functions.https.onCall((data, context) => {
 
 
 ///Elliott's Part
-function SendCall(numberToCall, location) {
+function SendCall(numberToCall, fromPhoneNumber, location) {
+    
+    console.log("Calling " + numberToCall + " From " + fromPhoneNumber);
     //create outbound call
     client.calls.create({
         url: 'http://demo.twilio.com/docs/voice.xml', //instructions fro when call connects
@@ -56,6 +58,24 @@ function SendCall(numberToCall, location) {
         }
     })
 }
+
+
+///Ryans Part
+function SendText(fromName, fromNum, toName, toNumber, location) {
+
+    client.messages.create({
+        body: 'Test Text Message from ' + fromName + ' for ' + toName,
+        from: fromNum,
+        to: toNumber
+    }, function(err, message) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(message.sid)
+        }
+    })
+}
+
 
 //Padraig's Part
 //Function to contact next emergency contact if call is rejected
@@ -78,30 +98,11 @@ function NextContact() {
 }
 
 
-
-
 function NextContact2(toNumber, fromPhoneNumber) {
     var emergencyNum = toNumber;
 }
 
-
-
-///Ryans Part
-function SendText(fromName, fromNum, toName, toNumber) {
-
-    client.messages.create({
-        body: 'Test Text Message from ' + fromName + ' for ' + toName,
-        from: fromNum,
-        to: toNumber
-    }, function(err, message) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(message.sid)
-        }
-    })
-}
-
+/*These are not in use!!!
 //function for sending offer of emergency contact role
 function SendContactRequest(fromName, fromNum, toName, toNumber) {
 
@@ -134,7 +135,7 @@ function DeclineContactRequest(fromName, fromNum, toName, toNumber) {
             console.log(message.sid)
         }
     })
-}
+}*/
 
 // npm install --save haversine-distance
 // https://www.npmjs.com/package/haversine-distance
