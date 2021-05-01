@@ -16,7 +16,7 @@ var ref = db.ref("users/");
 
 //Add new emergency user under our user that's already in the DB
 exports.emergencyContact = functions.https.onCall((data, context) => {
-    
+
     var lastAddedContact = "Contact1";
     ///Get required data that was called from our app
     usersPhoneNumber = data.fromPhoneNumber;//Current users number
@@ -37,18 +37,16 @@ exports.emergencyContact = functions.https.onCall((data, context) => {
                     db.ref('/users/' + usersPhoneNumber)  //References all contacts added by current user
                         .child("EmergencyContacts");
                 }
+
                 if (!snapshot.child(usersPhoneNumber + "/EmergencyContacts/Contact" + i).exists()) {
                     lastAddedContact = "Contact" + i;
 
                     const contactRef = db
                         .ref('/users/' + usersPhoneNumber + "/EmergencyContacts/");  //References all contacts added by current user
-                    //  .child(lastAddedContact);
 
                     contactRef
-                        .set({
+                        .update({
                             [lastAddedContact]: number
-                            //Name: name,
-                            // Number: number
                         }).then(() => console.log('Emergency Contact data updated.'));
 
                     //Exit from loop when done
@@ -81,50 +79,49 @@ function NextContact2(dbValue, fromNumber) {
 
 
 ////Function gets db details from database and finds correct user to call based on if they are listed as an emergency contact
-exports.GetPersonToCall = function(personsNumber, personsLocation) {
+exports.GetPersonToCall = function (personsNumber, personsLocation) {
 
-    // Attach an asynchronous callback to read the data at our posts reference
-    ref.on("value", function (snapshot) {
-        dbValue = snapshot.val();
-        i = 0;
+    return new Promise((resolve, reflect) => {
+        // Attach an asynchronous callback to read the data at our posts reference
+        ref.on("value", function (snapshot) {
+            dbValue = snapshot.val();
+            i = 0;
 
-        /*
-        Iterate through database here to call person at minimum distance. Set i equal to position
-        of data entry of minimum distance. Might need to use a priority queue adding each distance to it.
-        */
+            /*
+            Iterate through database here to call person at minimum distance. Set i equal to position
+            of data entry of minimum distance. Might need to use a priority queue adding each distance to it.
+            */
 
-        ///2 different ways of iterating through the db below
-        //Iterative way, go through all emergency contacts and try contact until successful
-        while (i < Object.keys(dbValue[personsNumber].EmergencyContacts).length)
-        {
-            console.log(i + " User Num: " + Object.values(dbValue[personsNumber].EmergencyContacts)[i]);
+            ///2 different ways of iterating through the db below
+            //Iterative way, go through all emergency contacts and try contact until successful
+            while (i < Object.keys(dbValue[personsNumber].EmergencyContacts).length) {
+                console.log(i + " User Num: " + Object.values(dbValue[personsNumber].EmergencyContacts)[i]);
 
-            toCallNumber = Object.values(dbValue[personsNumber].EmergencyContacts)[i];
+                toCallNumber = Object.values(dbValue[personsNumber].EmergencyContacts)[i];
 
-            //Iterate through outer array finding user fields correlating with the one we want to call
-            contactsLocation = dbValue[toCallNumber].Location;
-            contactsName = dbValue[toCallNumber].Name;
+                //Iterate through outer array finding user fields correlating with the one we want to call
+                contactsLocation = dbValue[toCallNumber].Location;
+                contactsName = dbValue[toCallNumber].Name;
 
-            console.log(contactsName + " " + contactsLocation);
+                console.log(contactsName + " " + contactsLocation + " Number to call " + toCallNumber);
 
-            ///Could iterate once, add all distances to priortiy queue here
-            ///Wait, Check if response accepted, if not continue w loop.
-            //else 
-            ///Nobody is willing to help :(
+                ///Could iterate once, add all distances to priortiy queue here
+                ///Wait, Check if response accepted, if not continue w loop.
+                //else 
+                ///Nobody is willing to help :(
 
-            //Return number of person we want to call 
-            //--------may have to create callback----------
-            i += 1;
+                //Return number of person we want to call 
+                //--------may have to create callback----------
+                i += 1;
+                resolve(toCallNumber);
+            }
 
 
-            return toCallNumber;
-        }   
 
-       
-
-    }, function (errorObject) { ///Else if there was an error getting the data
-        console.log("The read failed: " + errorObject.code);
-        return "Error";
+        }, function (errorObject) { ///Else if there was an error getting the data
+            console.log("The read failed: " + errorObject.code);
+            resolve("Error");
+        })
     });
 
 

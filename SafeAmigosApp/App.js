@@ -30,7 +30,7 @@ var usersName = "Peter";
 var usersPhoneNumber = "0862242312";
 var userLocation = "";
 var contactsName = "Homer";
-var contactsNumber = "+nuum";
+var contactsNumber = "+3538622";
 
 
 var isUserPage = true;
@@ -72,7 +72,7 @@ firebase.database() //read
 if (__DEV__) {
   console.log("--------in Emulator--------");
   // If you are running on a physical device, replace http://localhost with the local ip of your PC. (http://192.168.x.x)
-  ///firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
+  firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
 }
 
 
@@ -115,21 +115,19 @@ function AddNewUser(name, number) {
 
 ///Function to initiate a call to required phone number
 function SendCall() {
-/* Add our object to queue to get processed
+  //Add our object to queue to get processed
   firebase.functions()
-  .httpsCallable('AddNewUser')({Name: usersName, PhoneNumber: usersPhoneNumber, Location: location})
+  .httpsCallable('AddNewUser')({Name: usersName, PhoneNumber: usersPhoneNumber, Location: userLocation})
   .then(response => {
-    console.log("Calling " + contactsNumber);
-  });
-*/
-
+    console.log("Starting to process user");
+  }).catch((error) => console.log("Issue adding user to be processed " + error));;
 
   //Call firebase function by name and pass json parameters relating to user
-  firebase.functions()
+ /* firebase.functions()
     .httpsCallable('TwilioCall')({fromPhoneNumber: usersPhoneNumber, toNumber: contactsNumber, Location: userLocation})
     .then(response => {
       console.log("Calling " + contactsNumber);
-    });
+    });*/
 
 }
 
