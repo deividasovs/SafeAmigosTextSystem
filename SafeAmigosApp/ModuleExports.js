@@ -1,10 +1,5 @@
 ///internal module pattern
-import Controller from './screens/SampleAppScreen'
+export * from './screens/SampleAppScreen'
+export * from './test'
 
-
-import abc from './test'
-export {
-    Controller as default,
-    abc
-};
 

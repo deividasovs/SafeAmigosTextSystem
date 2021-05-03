@@ -1,15 +1,13 @@
 import * as firebase from 'firebase';
 require("firebase/functions");
 
-export class Functionality {
-
+export default class Functionality {
 
     usersName = "Peter";
     usersPhoneNumber = "0862242312";
     userLocation = "";
     contactsName = "Homer";
     contactsNumber = "+3538622";
-
 
     isUserPage = true;
 
@@ -40,24 +38,18 @@ export class Functionality {
 
         //Set functions to run from emulator if in development mode
         if (__DEV__) {
-            console.log("--------in Emulator--------");
+           // console.log("--------in Emulator--------");
             // If you are running on a physical device, replace http://localhost with the local ip of your PC. (http://192.168.x.x)
-            firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
+           // firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
         }
 
     }
-
-    TestFun() {
-        console.log("Happy");
-        console.log(this.usersName);
-    }
-
 
     //Adds contact to our Firebase Database
     ///---TO DO--- Run this on app launch and only update last added contact  for every new contact added
     AddEmergencyContact(name, number) {
         firebase.functions()
-            .httpsCallable('EmergencyContact')({ fromName: this.usersName, fromPhoneNumber: this.usersPhoneNumber, name: this.name, toNumber: this.number, location: this.userLocation })
+            .httpsCallable('EmergencyContact')({ fromName: this.usersName, fromPhoneNumber: this.usersPhoneNumber, name: name, toNumber: number, location: this.userLocation })
             .then(response => {
                 console.log("Add Emergency User called succesfully!");
             })
@@ -68,7 +60,7 @@ export class Functionality {
 
     ///Similar to emergency contact   above except it creates a new user entry in db 
     AddNewUser(name, number) {
-        console.log("Adding New User TO Db");
+        console.log("Adding " + name + " " + number + "TO Db");
         ///Get data from db and find the last entered contact
         firebase.database()
             .ref('users/')
@@ -77,15 +69,15 @@ export class Functionality {
                 //newReference = returned json object from db
                 const userRef = firebase.database()
                     .ref('/users/')  //References all contacts added by current user
-                    .child(this.number);
+                    .child(number);
 
                 userRef
                     .set({
-                        Name: this.name,
+                        Name: name,
                         location: this.userLocation,
                     })
                     .then(() => console.log('Data updated.'));
-            }).catch(() => console.log("Issue getting user snapshot"));;
+            }).catch((error) => console.log("Issue adding user to db " + error));
     }
 
     ///-------------------End of Firebase-------------------------
@@ -129,17 +121,17 @@ export class Functionality {
     ChangePage(name, number) {
         //If we should be at user page, then add new user to db, else add emergency contact under current Contact
         if (this.isUserPage) {
-            console.log("----------Adding new user---------");
+            console.log("----------Adding new user ---------");
             this.usersName = name;
             this.usersPhoneNumber = number;
-            AddNewUser(name, number);
+            this.AddNewUser(name, number);
             this.isUserPage = false;
         }
         else {
             console.log("----------Adding new Emergency Contact-------");
             this.contactsName = name;
             this.contactsNumber = number;
-            AddEmergencyContact(name, number);
+            this.AddEmergencyContact(name, number);
         }
     }
 }

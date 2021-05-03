@@ -8,24 +8,17 @@ import {
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
-import abc from 'test.js';
+import Functionality from '../AppFunctionality';
 
-//import dd from '/ffda'
+///Initialise our Function object
+let Function = new Functionality();
 
-//require("test");
-//import Functionality from './Functionality';
-
-///Implementing Singleton Pattern
+///Implementing Singleton Pattern for UI
 export default class Controller {
 
     static instance = Controller.instance || new Controller();
 
-
     screen1() {
-     
-        //  let Function = new Functionality();
-     //   abc.test();
-
         //Sample location code courtesy of https://docs.expo.io/versions/latest/sdk/location/
         const [location, setLocation] = useState(null);
         const [errorMsg, setErrorMsg] = useState(null);
@@ -42,11 +35,11 @@ export default class Controller {
             })();
         }, []);
 
-        var userLocation = 'Waiting..';
+        Function.userLocation = 'Waiting..';
         if (errorMsg) {
-            userLocation = errorMsg;
+            Function.userLocation = errorMsg;
         } else if (location) {
-            userLocation = JSON.stringify(location);
+            Function.userLocation = JSON.stringify(location);
         }
 
         const [name, setName] = React.useState('');
@@ -83,7 +76,7 @@ export default class Controller {
                         title="Add contact"
                         color="black"
                         onPress={() => {
-                            // ChangePage(name, number);
+                            Function.ChangePage(name,number);
                         }}
                     />
                 </View>
@@ -94,7 +87,7 @@ export default class Controller {
                         color="red"
                         onPress={() => {
                             //SendText();
-                            //  Function.TestFun();
+                            Function.SendCall();
                         }}
                     />
                 </View>
