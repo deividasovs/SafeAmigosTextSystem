@@ -31,11 +31,7 @@ function AddUser(name, number, location) {
             }
         }
 
-        newPerson = {
-            Name: name,
-            Number: number,
-            Location: location
-        }
+        newPerson = Person(name, number, location);
         ShouldStart = true;
 
         resolve(contactQueue.push(newPerson));
@@ -63,5 +59,48 @@ function ContinuosProcess() {
         }
         //If we have no users in our queue to process, stop this loop
         if (contactQueue.length == 0) ShouldStart = false;
+    }
+}
+
+
+
+class Person {
+
+    name;
+    number;
+    location;
+    emergencyContacts = [];
+
+    Person(name, number, location)
+    {
+        this.name = name;
+        this.number = number; 
+        this.location = location;
+    }
+
+    AddEmergencyContact(number, distance) {
+        contact = new Contact(number, distance);
+        this.emergencyContacts.push(contact);
+        emergencyContacts.sort(compare)
+    }
+}
+
+function compare(a, b) {
+    if (a.distance < b.distance) {
+        return -1;
+    }
+    if (a.distance > b.distance) {
+        return 1;
+    }
+    return 0;
+}
+
+class Contact {
+    number;
+    distance;
+
+    Contact(number, distance) {
+        this.number = number;
+        this.distance = distance;
     }
 }
