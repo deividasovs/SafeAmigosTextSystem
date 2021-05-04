@@ -157,7 +157,7 @@ export default class Functionality {
 
         const ref = firebase.storage().ref().child('image.png');
 
-        ref.put('image.png').then((snapshot) => {
+        ref.put('SafeAmigosTextSystem\image.png').then((snapshot) => {
             console.log('image uploaded!')
         });
 
