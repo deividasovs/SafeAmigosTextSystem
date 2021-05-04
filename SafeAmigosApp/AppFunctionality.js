@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 require("firebase/functions");
+import "firebase/storage";
 
 export default class Functionality {
 
@@ -133,5 +134,17 @@ export default class Functionality {
             this.contactsNumber = number;
             this.AddEmergencyContact(name, number);
         }
+    }
+
+    UploadImage(){
+
+        /*var Storage = firebase.app().storage("gs://safeamigos-66c18.appspot.com/Images");*/
+
+        const ref = firebase.storage().ref().child('some-child');
+
+        ref.put('image.png').then((snapshot) => {
+            console.log('image uploaded!')
+        });
+
     }
 }
