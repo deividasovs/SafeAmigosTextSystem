@@ -31,20 +31,20 @@ const CreateUserScreen = props => {
 <Text style={styles.textStyle}>Your Phone Number:</Text>
 <TextInput ref={input => { this.textInputNumber = input }}
   style={styles.input}
-//  onChangeText={setNumber}
- // value={number}
+  onChangeText={setNumber}
+  value={number}
   keyboardType="numeric"
   maxLength={15}
-// onChangeText={(text) => this.setNumber({number:text})}
+ onChangeText={(text) => this.setNumber({number:text})}
 />
 <View style={{ margin: 20, borderRadius: 10, borderWidth: 2 }}>
         <Button
-          title="Add contact"
+          title="Add/update details"
           color="black"
           onPress={() => {
             this.textInputNumber.clear();
             this.textInputName.clear();
-            //Go to the home page
+            //Add user details
           }}
         />
       </View>

@@ -48,16 +48,6 @@ const CreateEmergencyContactScreen = props => {
           }}
         />
       </View>
-
-      <View style={{ margin: 20, borderRadius: 10, borderWidth: 2 }}>
-        <Button
-          title="Home"
-          color="black"
-        //  onPress={() => {
-        //    onPress={() => props.navigation.navigate('Home')};
-       //   }}
-        />
-      </View>
     </SafeAreaView>
   );
 };
