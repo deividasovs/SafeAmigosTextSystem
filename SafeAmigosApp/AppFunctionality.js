@@ -38,9 +38,9 @@ export default class Functionality {
 
         //Set functions to run from emulator if in development mode
         if (__DEV__) {
-           // console.log("--------in Emulator--------");
+            // console.log("--------in Emulator--------");
             // If you are running on a physical device, replace http://localhost with the local ip of your PC. (http://192.168.x.x)
-           // firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
+            // firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
         }
 
     }
@@ -68,7 +68,7 @@ export default class Functionality {
             .then(snapshot => {
                 //newReference = returned json object from db
                 const userRef = firebase.database()
-                    .ref('/users/')  //References all contacts added by current user
+                    .ref('/users/') //References all contacts added by current user
                     .child(number);
 
                 userRef
@@ -93,6 +93,12 @@ export default class Functionality {
                 console.log("Starting to process user");
             }).catch((error) => console.log("Issue adding user to be processed " + error));;
     }
+
+    sendIt() {
+        alert("Your message has been sent. Your Emergency contact has 30 seconds to respond to your alert");
+    }
+
+
 
     ///  to initiate a call to required phone number
     SendText() {
@@ -126,8 +132,7 @@ export default class Functionality {
             this.usersPhoneNumber = number;
             this.AddNewUser(name, number);
             this.isUserPage = false;
-        }
-        else {
+        } else {
             console.log("----------Adding new Emergency Contact-------");
             this.contactsName = name;
             this.contactsNumber = number;
