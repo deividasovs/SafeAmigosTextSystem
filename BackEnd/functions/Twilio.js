@@ -10,12 +10,12 @@ var client = require('twilio')(accountSid, authToken); //defining client variabl
 //receiving details of whom to ring
 exports.Call= function SendCallToUser(data){
     SendCall(data.toNumber, data.fromPhoneNumber, data.Location);
-};
+}
 
 ///Functions same way as SendCall except for sending a text
-exports.SendText = functions.https.onCall((data, context) => {
+exports.SendText = function SendTextToUser(data){
     SendText(data.fromName, data.fromPhoneNumber, data.toName, data.toNumber, data.Location);
-});
+}
 
 exports.DeclineContactRequest = functions.https.onCall((data, context) => {
     DeclineContactRequest(data.fromName, data.fromPhoneNumber, data.toName, data.toNumber);
@@ -43,12 +43,15 @@ function SendCall(numberToCall, fromPhoneNumber, location) {
 
 ///Ryans Part
 function SendText(fromName, fromNum, toName, toNumber, location) {
+    console.log("Sending Text to " + toName);
 
     client.messages.create({
-        body: 'Test Text Message from ' + fromName + ' for ' + toName,
-        from: fromNum,
+        body: fromName + ` needs your help!! Call ` + fromNum +
+        ` to help or click ` + `https://us-central1-safeamigos-66c18.cloudfunctions.net/DeclineContactRequest 
+        to decline`,
+        from: "+19513632916",
         to: toNumber
-    }, function(err, message) {
+    }, function(err, message) {     
         if (err) {
             console.log(err);
         } else {
@@ -74,8 +77,6 @@ function NextContact() {
             break;
         }
     }
-
-
 }
 
 
@@ -117,21 +118,5 @@ function DeclineContactRequest(fromName, fromNum, toName, toNumber) {
         }
     })
 }*/
-
-// npm install --save haversine-distance
-// https://www.npmjs.com/package/haversine-distance
-function haversineDistance() {
-    const haversine = require("haversine-distance");
-
-    // TODO Variables to be taken from the database
-    const location1 = { latitude: 37.8136, longitude: 144.9631 }
-    const location2 = { latitude: 33.8650, longitude: 151.2094 }
-
-    var meterDistance = (haversine(location1, location2));
-    var kilometerDistance = (haversine(location1, location2) / 1000)
-    console.log(meterDistance) // in meters
-    console.log(kilometerDistance) // in KM
-}
-
 
 

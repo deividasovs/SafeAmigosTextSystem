@@ -15,7 +15,6 @@ var contactQueue = [];
 var ShouldStart = false;
 
 exports.AddNewUser = functions.https.onCall((data, context) => {
-
     AddUser(data.Name, data.PhoneNumber, data.Location).then(() => ContinuosProcess())
     .catch(() => console.log("Error Trying to process User"));
 });
@@ -31,7 +30,13 @@ function AddUser(name, number, location) {
             }
         }
 
-        newPerson = Person(name, number, location);
+        //newPerson = Person(name, number, location);
+        newPerson = {
+            name: name,
+            number: number,
+            location: location
+        }
+
         ShouldStart = true;
 
         resolve(contactQueue.push(newPerson));
@@ -43,16 +48,23 @@ function AddUser(name, number, location) {
 function ContinuosProcess() {
     
     if (ShouldStart) {
-        ///Issue here, ContactQueue never empty!!!!
+
         while (contactQueue.length > 0) {
             var personToProcess = contactQueue.shift(); ///Shift for queue, pop for Stack
-           
+            
             ///Once we found our person to message, find the correct user to contact
             //TwilioTools.SendText("", "", "", FirebaseTools.GetPersonToCall(personToProcess.Number, personToProcess.Location), "");
-            FirebaseTools.GetPersonToCall(personToProcess.Number, personToProcess.Location)
+            FirebaseTools.GetPersonToCall(personToProcess.number, personToProcess.location)
                  .then(num => {
-                     TwilioTools.Call({
-                         toNumber: num, fromPhoneNumber: personToProcess.Number, Location: personToProcess.Location
+                     /*TwilioTools.Call({
+                         toNumber: num, fromPhoneNumber: personToProcess.number, Location: personToProcess.location
+                     })*/
+            
+                     console.log("----------------" + personToProcess.name + personToProcess.number + num + personToProcess.location);
+
+                    TwilioTools.SendText({
+                        fromName: personToProcess.name, fromPhoneNumber: personToProcess.number, 
+                        toName: "", toNumber: num, Location: personToProcess.location
                      })
                  })
                  .catch(error => { console.log("Error trying to call " + error) });

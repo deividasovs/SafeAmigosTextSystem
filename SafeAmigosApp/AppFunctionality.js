@@ -38,9 +38,9 @@ export default class Functionality {
 
         //Set functions to run from emulator if in development mode
         if (__DEV__) {
-           // console.log("--------in Emulator--------");
+            console.log("--------in Emulator--------");
             // If you are running on a physical device, replace http://localhost with the local ip of your PC. (http://192.168.x.x)
-           // firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
+            firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
         }
 
     }
@@ -103,7 +103,6 @@ export default class Functionality {
             .then(response => {
                 console.log("Called Succesfully");
             });
-
     }
 
     DeclineContactRequest() {
