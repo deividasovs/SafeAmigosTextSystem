@@ -44,16 +44,7 @@ const HomeScreen = props => {
     }
   };
 
-  const switchCamera = () => {
-    if (isPreview) {
-      return;
-    }
-    setCameraType((prevCameraType) =>
-      prevCameraType === Camera.Constants.Type.back
-        ? Camera.Constants.Type.front
-        : Camera.Constants.Type.back
-    );
-  };
+
 
   return(
   <SafeAreaView>
@@ -84,8 +75,13 @@ const HomeScreen = props => {
   />
     </View>
 
-    <Text style = {{paddingTop: 20, fontSize: 20, marginLeft: 20}}>Your Location: {"\n"}
-    {userLocation}</Text>
+    <View style={{ margin: 20, borderRadius: 10, borderWidth: 2, }}>
+    <Button
+    title = "Camera"
+    color= "black"
+    onPress={( takePicture())}
+  />
+    </View>
 
     <Camera
         ref={cameraRef}
