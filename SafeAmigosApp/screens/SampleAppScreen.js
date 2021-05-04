@@ -9,6 +9,7 @@ import {
 import React, { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
 import Functionality from '../AppFunctionality';
+import Alert from 'react-bootstrap/Alert';
 
 ///Initialise our Function object
 let Function = new Functionality();
@@ -54,11 +55,9 @@ export default class Controller {
                 <TextInput
                     style={styles.input}
                     onChangeText={setName}
-                    //value={text}
                     placeholder="John Smith"
                     autoCorrect={false}
                     maxLength={40}
-                //=onChangeText={name => this.setName({name})}
                 />
                 <Text style={styles.textStyle}>Phone Number:</Text>
                 <TextInput
@@ -68,7 +67,6 @@ export default class Controller {
                     placeholder="0861234567"
                     keyboardType="numeric"
                     maxLength={15}
-                // onChangeText={(text) => this.setNumber({number:text})}
                 />
 
                 <View style={{ margin: 20, borderRadius: 10, borderWidth: 2 }}>
@@ -86,11 +84,13 @@ export default class Controller {
                         title="Send Text"
                         color="red"
                         onPress={() => {
-                            //SendText();
                             Function.SendCall();
+                            Function.sendIt();
                         }}
+                        
                     />
                 </View>
+                        
 
             </View>
         );
@@ -116,3 +116,40 @@ const styles = StyleSheet.create({
         padding: 10,
     }
 });
+
+
+
+
+
+
+
+/*an idea for read reciepts, taken from https://prodocs.cometchat.com/docs/js-messaging-receipts
+
+var messageId = "MESSAGE_ID"; //The ID of the message above which all the messages for a particular conversation are to be marked as read.
+var receiverId = "MESSAGE_SENDER_UID"; //In case of one to one conversation message's sender UID will be the receipt's receiver Id.
+var receiverType = "user"; //Type of the receiver
+CometChat.markAsRead(messageId, receiverId, receiverType);
+
+let listenerId = "UNIQUE_LISTENER_ID";
+
+CometChat.addMessageListener(
+  "listenerId",
+  new CometChat.MessageListener({
+    onMessagesDelivered: messageReceipt => {
+      console.log("MessageDeliverd", { messageReceipt });
+    },
+    onMessagesRead: messageReceipt => {
+      console.log("MessageRead", { messageReceipt });
+    }
+  })
+);
+
+let messageId = msgId;
+CometChat.getMessageReceipts(messageId).then(
+  receipts => {
+    console.log("Message details fetched:", receipts);
+  },
+  error => {
+    console.log("Error in getting messag details ", error);
+  }
+); */
