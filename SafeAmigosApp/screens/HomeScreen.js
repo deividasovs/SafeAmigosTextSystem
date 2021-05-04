@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 ///import libs
-import Camera from 'react-native-camera';
+import { Camera } from "expo-camera";
+import { Video } from "expo-av";
 import {
   StyleSheet,
   View,
@@ -13,6 +14,47 @@ import {
 } from 'react-native';
 
 const HomeScreen = props => {
+  const [hasPermission, setHasPermission] = useState(null);
+  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
+  const [isPreview, setIsPreview] = useState(false);
+  const [isCameraReady, setIsCameraReady] = useState(false);
+  const cameraRef = useRef();
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === "granted");
+    })();
+  }, []);
+
+  const onCameraReady = () => {
+    setIsCameraReady(true);
+  };
+
+  const takePicture = async () => {
+    if (cameraRef.current) {
+      const options = { quality: 0.5, base64: true, skipProcessing: true };
+      const data = await cameraRef.current.takePictureAsync(options);
+      const source = data.uri;
+      if (source) {
+        await cameraRef.current.pausePreview();
+        setIsPreview(true);
+        console.log("picture source", source);
+      }
+    }
+  };
+
+  const switchCamera = () => {
+    if (isPreview) {
+      return;
+    }
+    setCameraType((prevCameraType) =>
+      prevCameraType === Camera.Constants.Type.back
+        ? Camera.Constants.Type.front
+        : Camera.Constants.Type.back
+    );
+  };
+
   return(
   <SafeAreaView>
     <Text style={{ textAlign: "center", fontSize: 30, padding: 20}}>Welcome Back!</Text>
@@ -44,6 +86,17 @@ const HomeScreen = props => {
 
     <Text style = {{paddingTop: 20, fontSize: 20, marginLeft: 20}}>Your Location: {"\n"}
     {userLocation}</Text>
+
+    <Camera
+        ref={cameraRef}
+        style={styles.container}
+        type={cameraType}
+        flashMode={Camera.Constants.FlashMode.on}
+        onCameraReady={onCameraReady}
+        onMountError={(error) => {
+          console.log("cammera error", error);
+        }}
+      />
     </SafeAreaView>
   );
 };
