@@ -29,21 +29,18 @@ const HomeScreen = props => {
     <Button
     title = "Add Emergency Contact"
     color= "black"
-    onPress={() => {
-      // go to create contacts page
-        }}
+    onPress={() => props.navigation.navigate('CreateContact')}
   />
     </View>
 
-    <View style={{ margin: 20, borderRadius: 10, borderWidth: 2 }}>
-       <Button style={styles.button}
-    title = "Notifications"
-    color = "black"
-    onPress={() => {
-        // go to notifcations page
-          }}
-    />
+    <View style={{ margin: 20, borderRadius: 10, borderWidth: 2, }}>
+    <Button
+    title = "Add Your Details"
+    color= "black"
+    onPress={() => props.navigation.navigate('CreateUser')}
+  />
     </View>
+
     <Text style = {{paddingTop: 20, fontSize: 20, marginLeft: 20}}>Your Location: {"\n"}
     {userLocation}</Text>
     </SafeAreaView>
