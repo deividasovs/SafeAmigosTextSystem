@@ -17,6 +17,7 @@ var ref = db.ref("users/");
 //Add new emergency user under our user that's already in the DB
 exports.emergencyContact = functions.https.onCall((data, context) => {
 
+
     var lastAddedContact = "Contact1";
     ///Get required data that was called from our app
     usersPhoneNumber = data.fromPhoneNumber;//Current users number
@@ -76,6 +77,10 @@ function NextContact2(dbValue, fromNumber) {
     }
 }
 
+exports.AddEmergencyLocations = function()
+{
+
+}
 
 
 ////Function gets db details from database and finds correct user to call based on if they are listed as an emergency contact
@@ -86,6 +91,7 @@ exports.GetPersonToCall = function (personsNumber, personsLocation) {
         ref.on("value", function (snapshot) {
             dbValue = snapshot.val();
             i = 0;
+            //var closestDistance = MAX_SAFE_INTEGER;
 
             /*
             Iterate through database here to call person at minimum distance. Set i equal to position
@@ -95,7 +101,7 @@ exports.GetPersonToCall = function (personsNumber, personsLocation) {
             ///2 different ways of iterating through the db below
             //Iterative way, go through all emergency contacts and try contact until successful
             while (i < Object.keys(dbValue[personsNumber].EmergencyContacts).length) {
-                console.log(i + " User Num: " + Object.values(dbValue[personsNumber].EmergencyContacts)[i]);
+              
 
                 toCallNumber = Object.values(dbValue[personsNumber].EmergencyContacts)[i];
 
@@ -110,9 +116,38 @@ exports.GetPersonToCall = function (personsNumber, personsLocation) {
                 //else 
                 ///Nobody is willing to help :(
 
-                i += 1;
                 //Return number of person we want to call 
+                //--------may have to create callback----------
+                i += 1;
+                console.log(i + " User Num: " + Object.values(dbValue[personsNumber].EmergencyContacts)[i]);
                 resolve(toCallNumber);
+
+
+                /*senderLocation = dbValue[personsNumber].Location;
+
+                const haversine = require("haversine-distance");
+
+                var senderLatIndex = senderLocation.search("Latitude");
+                var senderLonIndex = senderLocation.search("Longitude");
+                var senderLatitude = senderLocation.substring(senderLatIndex+11, receiverLatIndex+20);
+                var senderLongitude = senderLocation.substring(senderLonIndex+13, senderLonIndex+23);
+
+                var receiverLatIndex = contactsLocation.search("Latitude");
+                var receiverLonIndex = contactsLocation.search("Longitude");
+                var receiverLatitude = contactsLocation.substring(receiverLatIndex+11, receiverLatIndex+20);
+                var receiverLongitude = contactsLocation.substring(receiverLonIndex+13, senderLonIndex+23);
+
+                const location1 = { latitude: senderLatitude, longitude: senderLongitude }
+                const location2 = { latitude: receiverLatitude, longitude: receiverLongitude }
+
+                var meterDistance = (haversine(location1, location2));
+                if(meterDistance < closestDistance)
+                {
+                    closestDistance = meterDistance;
+                }
+
+                //Add emergency contact to array
+                console.log(closestDistance);*/
             }
 
 

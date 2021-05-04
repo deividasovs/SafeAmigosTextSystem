@@ -1,7 +1,3 @@
-/**
- * @authors Deividas Ovsianikovas, Elliott Mcstay, Ryan Glynn, Evan Sourke, Padraig Halsted
- * @flow strict-local
- */
 
 import Controller from './screens/SampleAppScreen'
 
