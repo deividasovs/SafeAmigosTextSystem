@@ -12,6 +12,7 @@ import Functionality from '../AppFunctionality';
 
 ///Initialise our Function object
 let Function = new Functionality();
+Function.UploadImage();
 
 ///Implementing Singleton Pattern for UI
 export default class Controller {

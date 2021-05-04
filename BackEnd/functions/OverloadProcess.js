@@ -30,12 +30,15 @@ function AddUser(name, number, location) {
             }
         }
 
-        //newPerson = Person(name, number, location);
-        newPerson = {
+        newPerson = new Person({name: name, number: number, location: location});
+        console.log("****************Persons name is " + newPerson.name );
+        /*newPerson = {
             name: name,
             number: number,
             location: location
-        }
+        }*/
+
+      
 
         ShouldStart = true;
 
@@ -62,7 +65,7 @@ function ContinuosProcess() {
             
                      console.log("----------------" + personToProcess.name + personToProcess.number + num + personToProcess.location);
 
-                    TwilioTools.SendText({
+                     TwilioTools.SendText({
                         fromName: personToProcess.name, fromPhoneNumber: personToProcess.number, 
                         toName: "", toNumber: num, Location: personToProcess.location
                      })
@@ -83,11 +86,18 @@ class Person {
     location;
     emergencyContacts = [];
 
-    Person(name, number, location)
+    constructor(data) {
+        this.data = data;
+    }
+
+    getData()
     {
-        this.name = name;
-        this.number = number; 
-        this.location = location;
+        return this.data;
+    }
+
+    GetEmergencyContacts()
+    {
+        return this.emergencyContacts;
     }
 
     AddEmergencyContact(number, distance) {

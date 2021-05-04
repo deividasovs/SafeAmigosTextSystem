@@ -4,6 +4,7 @@ import "firebase/storage";
 
 export default class Functionality {
 
+
     usersName = "Peter";
     usersPhoneNumber = "0862242312";
     userLocation = "";
@@ -91,7 +92,7 @@ export default class Functionality {
         firebase.functions()
             .httpsCallable('AddNewUser')({ Name: this.usersName, PhoneNumber: this.usersPhoneNumber, Location: this.userLocation })
             .then(response => {
-                console.log("Starting to process user");
+                console.log("Starting to process user " + this.userLocation);
             }).catch((error) => console.log("Issue adding user to be processed " + error));;
     }
 
@@ -139,9 +140,9 @@ export default class Functionality {
 
         /*var Storage = firebase.app().storage("gs://safeamigos-66c18.appspot.com/Images");*/
 
-        const ref = firebase.storage().ref().child('some-child');
+        const ref = firebase.storage().ref().child('image.png');
 
-        ref.put('image.png').then((snapshot) => {
+        ref.put('./image.png').then((snapshot) => {
             console.log('image uploaded!')
         });
 
