@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 ///import libs
+import Camera from 'react-native-camera';
 import {
   StyleSheet,
   View,
