@@ -7,10 +7,10 @@ import Controller from './screens/SampleAppScreen'
 
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import HomeScreen from './screens/HomeScreen';
+import Home from './screens/HomeScreen';
 import ContactsScreen from './screens/CreateContactsScreen';
 import CreateContactsScreen from './screens/CreateEmergencyContactScreen';
-import CreateUserScreen from './screens/CreateUserScreen';
+import CreateUser from './screens/CreateUserScreen';
 
 const navigator = createStackNavigator(
   {
