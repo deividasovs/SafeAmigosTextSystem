@@ -141,25 +141,20 @@ export default class Functionality {
         }
     }
 
+   
+
     UploadImage() {
 
         /*var Storage = firebase.app().storage("gs://safeamigos-66c18.appspot.com/Images");*/
-        var storageRef = firebase.storage().ref();
+        var img = document.createElement("img");
 
-        var ImageRef = storageRef.child('image.png');
+        img.src = "image.png"
 
-        var ImageRefStorage = storageRef.child('images/image.png');
+            const storageRef = firebase.storage().ref();
+            
+            var metadata = {contentType: 'image/png',};
 
-        ImageRef.name === ImageRefStorage.name; 
+            var UploadTask = storageRef.child('images/').put(img, metadata);
+        };
 
-        ImageRef.fullPath === ImageRefStorage.fullPath;
-
-
-        const ref = firebase.storage().ref().child('image.png');
-
-        ref.put('SafeAmigosTextSystem\image.png').then((snapshot) => {
-            console.log('image uploaded!')
-        });
-
-    }
 }
