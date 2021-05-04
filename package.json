@@ -2,6 +2,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "haversine-distance": "^1.2.1",
+    "react-native": "^0.64.0",
     "twilio": "^3.58.0"
   }
 }
