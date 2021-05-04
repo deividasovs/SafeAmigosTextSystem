@@ -8,8 +8,7 @@ import Controller from './screens/SampleAppScreen'
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Home from './screens/HomeScreen';
-import ContactsScreen from './screens/CreateContactsScreen';
-import CreateContactsScreen from './screens/CreateEmergencyContactScreen';
+import CreateContact from './screens/CreateEmergencyContactScreen';
 import CreateUser from './screens/CreateUserScreen';
 
 const navigator = createStackNavigator(
@@ -17,7 +16,6 @@ const navigator = createStackNavigator(
     Home: HomeScreen,
     CreateContact: CreateEmergencyContactScreen,
     CreateUser: CreateUserScreen,
-    Location: LocationScreen
   },
   {
     initialRouteName: 'HomeScreen',
