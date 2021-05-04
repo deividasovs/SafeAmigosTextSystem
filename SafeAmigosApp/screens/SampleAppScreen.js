@@ -54,9 +54,11 @@ export default class Controller {
                 <TextInput
                     style={styles.input}
                     onChangeText={setName}
+                    //value={text}
                     placeholder="John Smith"
                     autoCorrect={false}
                     maxLength={40}
+                //=onChangeText={name => this.setName({name})}
                 />
                 <Text style={styles.textStyle}>Phone Number:</Text>
                 <TextInput
@@ -66,6 +68,7 @@ export default class Controller {
                     placeholder="0861234567"
                     keyboardType="numeric"
                     maxLength={15}
+                // onChangeText={(text) => this.setNumber({number:text})}
                 />
 
                 <View style={{ margin: 20, borderRadius: 10, borderWidth: 2 }}>
@@ -83,6 +86,7 @@ export default class Controller {
                         title="Send Text"
                         color="red"
                         onPress={() => {
+                            //SendText();
                             Function.SendCall();
                         }}
                     />

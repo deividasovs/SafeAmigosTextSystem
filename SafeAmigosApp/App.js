@@ -1,34 +1,11 @@
-/**
- * @authors Deividas Ovsianikovas, Elliott Mcstay, Ryan Glynn, Evan Sourke, Padraig Halsted
- * @flow strict-local
- */
 
 import Controller from './screens/SampleAppScreen'
 
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-import Home from './screens/HomeScreen';
-import CreateContact from './screens/CreateEmergencyContactScreen';
-import CreateUser from './screens/CreateUserScreen';
 
-const navigator = createStackNavigator(
-  {
-    Home: HomeScreen,
-    CreateContact: CreateEmergencyContactScreen,
-    CreateUser: CreateUserScreen,
-  },
-  {
-    initialRouteName: 'HomeScreen',
-    defaultNavigationOptions: {
-      title: 'App',
-    },
-  }
-);
 
 ///Called every time app is updated
 const App = () => {
   return (Controller.instance.screen1());
 };
 
-export default createAppContainer(navigator);
 export default App;

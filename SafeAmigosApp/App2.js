@@ -175,3 +175,9 @@ const styles = StyleSheet.create({
 export default App;
 
 
+<<<<<<< HEAD
+=======
+const App = createAppContainer(navigator);
+
+export default App;
+>>>>>>> 3d5d9ff82a75fc0fcc77255c1d9881d67551b8b7

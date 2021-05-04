@@ -1,22 +1,16 @@
-import React, { useState, useEffect } from 'react';
+
 ///import libs
 import { Camera } from "expo-camera";
 import { Video } from "expo-av";
 import {
-  StyleSheet,
   View,
-  Text,
-  SafeAreaView,
   Button,
-  Alert,
-  AppRegistry,
-  TextInput
 } from 'react-native';
 
 const HomeScreen = props => {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
-  const [isPreview, setIsPreview] = useState(false);
+  const [isPreview, scdetIsPreview] = useState(false);
   const [isCameraReady, setIsCameraReady] = useState(false);
   const cameraRef = useRef();
 
@@ -68,11 +62,10 @@ const HomeScreen = props => {
     </View>
 
     <View style={{ margin: 20, borderRadius: 10, borderWidth: 2, }}>
-    <Button
-    title = "Add Your Details"
-    color= "black"
-    onPress={() => props.navigation.navigate('CreateUser')}
-  />
+      <Button
+        title="Add Emergency Contact"
+        color="black"
+      />
     </View>
 
     <View style={{ margin: 20, borderRadius: 10, borderWidth: 2, }}>
@@ -96,12 +89,5 @@ const HomeScreen = props => {
     </SafeAreaView>
   );
 };
-const styles = StyleSheet.create({
-  button: {
-    textAlign: "center",
-    fontSize: 100,
-    marginTop: 500
-  }
-});
 
 export default HomeScreen;
