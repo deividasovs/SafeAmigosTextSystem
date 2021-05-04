@@ -86,6 +86,7 @@ exports.GetPersonToCall = function (personsNumber, personsLocation) {
         ref.on("value", function (snapshot) {
             dbValue = snapshot.val();
             i = 0;
+            var closestDistance = MAX_SAFE_INTEGER;
 
             /*
             Iterate through database here to call person at minimum distance. Set i equal to position
@@ -114,6 +115,31 @@ exports.GetPersonToCall = function (personsNumber, personsLocation) {
                 //--------may have to create callback----------
                 i += 1;
                 resolve(toCallNumber);
+
+
+                senderLocation = dbValue[personsNumber].Location;
+
+                const haversine = require("haversine-distance");
+
+                var senderLatIndex = senderLocation.search("Latitude");
+                var senderLonIndex = senderLocation.search("Longitude");
+                var senderLatitude = senderLocation.substring(senderLatIndex+11, receiverLatIndex+20);
+                var senderLongitude = senderLocation.substring(senderLonIndex+13, senderLonIndex+23);
+
+                var receiverLatIndex = contactsLocation.search("Latitude");
+                var receiverLonIndex = contactsLocation.search("Longitude");
+                var receiverLatitude = contactsLocation.substring(receiverLatIndex+11, receiverLatIndex+20);
+                var receiverLongitude = contactsLocation.substring(receiverLonIndex+13, senderLonIndex+23);
+
+                const location1 = { latitude: senderLatitude, longitude: senderLongitude }
+                const location2 = { latitude: receiverLatitude, longitude: receiverLongitude }
+
+                var meterDistance = (haversine(location1, location2));
+                if(meterDistance < closestDistance)
+                {
+                    closestDistance = meterDistance;
+                }
+                console.log(closestDistance);
             }
 
 
