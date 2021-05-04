@@ -110,9 +110,8 @@ exports.GetPersonToCall = function (personsNumber, personsLocation) {
                 //else 
                 ///Nobody is willing to help :(
 
-                //Return number of person we want to call 
-                //--------may have to create callback----------
                 i += 1;
+                //Return number of person we want to call 
                 resolve(toCallNumber);
             }
 

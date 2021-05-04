@@ -43,9 +43,11 @@ function SendCall(numberToCall, fromPhoneNumber, location) {
 
 ///Ryans Part
 function SendText(fromName, fromNum, toName, toNumber, location) {
-
     client.messages.create({
-        body: 'Test Text Message from ' + fromName + ' for ' + toName,
+        body: fromName +`Needs your help! Call ` + fromNum + 
+        `to reach out now or click  
+        https://us-central1-safeamigos-66c18.cloudfunctions.net/DeclineContactRequest 
+        to decline to help \n Find them at ` + location,
         from: fromNum,
         to: toNumber
     }, function(err, message) {
