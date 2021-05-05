@@ -40,12 +40,23 @@ export default class Functionality {
 
         //Set functions to run from emulator if in development mode
         if (__DEV__) {
-           // console.log("--------in Emulator--------");
+            console.log("--------in Emulator--------");
             // If you are running on a physical device, replace http://localhost with the local ip of your PC. (http://192.168.x.x)
-           // firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
+            firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
         }
 
+
+        firebase.functions()
+            .httpsCallable('helloWorld')()
+            .then(response => {
+                console.log("DONE");
+            }).catch((error) => console.log("Issue with Hello World " + error));
+
+
     }
+
+
+
 
     //Adds contact to our Firebase Database
     ///---TO DO--- Run this on app launch and only update last added contact  for every new contact added
@@ -93,11 +104,11 @@ export default class Functionality {
             .httpsCallable('AddNewUser')({ Name: this.usersName, PhoneNumber: this.usersPhoneNumber, Location: this.userLocation })
             .then(response => {
                 console.log("Starting to process user " + this.userLocation);
-            }).catch((error) => console.log("Issue adding user to be processed " + error));;
+            }).catch((error) => console.log("Issue adding user to be processed " + error));
     }
 
     sendIt() {
-        alert("Your message has been sent. Your Emergency contact has 30 seconds to respond to your alert");
+        //alert("Your message has been sent. Your Emergency contact has 30 seconds to respond to your alert");
     }
 
 
@@ -142,7 +153,7 @@ export default class Functionality {
         }
     }
 
-   
+
 
     UploadImage() {
 
@@ -151,11 +162,11 @@ export default class Functionality {
 
         img.src = "image.png"
 
-            const storageRef = firebase.storage().ref();
-            
-            var metadata = {contentType: 'image/png',};
+        const storageRef = firebase.storage().ref();
 
-            var UploadTask = storageRef.child('images/').put(img, metadata);
-        };
+        var metadata = { contentType: 'image/png', };
+
+        var UploadTask = storageRef.child('images/').put(img, metadata);
+    };
 
 }

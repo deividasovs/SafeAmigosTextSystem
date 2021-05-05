@@ -77,14 +77,11 @@ function NextContact2(dbValue, fromNumber) {
     }
 }
 
-exports.AddEmergencyLocations = function()
-{
-
-}
 
 
-////Function gets db details from database and finds correct user to call based on if they are listed as an emergency contact
-exports.GetPersonToCall = function (personsNumber, personsLocation) {
+
+////Function adds array of emergency contacts to our user
+exports.GetEmergencyContacts = function (personsNumber, personsLocation) {
 
     return new Promise((resolve, reflect) => {
         // Attach an asynchronous callback to read the data at our posts reference
@@ -97,31 +94,26 @@ exports.GetPersonToCall = function (personsNumber, personsLocation) {
             Iterate through database here to call person at minimum distance. Set i equal to position
             of data entry of minimum distance. Might need to use a priority queue adding each distance to it.
             */
-
-            ///2 different ways of iterating through the db below
+            emContacts = [];
+            loopDone = false;
             //Iterative way, go through all emergency contacts and try contact until successful
             while (i < Object.keys(dbValue[personsNumber].EmergencyContacts).length) {
-              
 
                 toCallNumber = Object.values(dbValue[personsNumber].EmergencyContacts)[i];
 
                 //Iterate through outer array finding user fields correlating with the one we want to call
-                contactsLocation = dbValue[toCallNumber].Location;
-                contactsName = dbValue[toCallNumber].Name;
+                let contact = {
+                    name:  dbValue[toCallNumber].Name,
+                    number: toCallNumber,
+                    location: dbValue[toCallNumber].Location
+                }
 
-                console.log(contactsName + " " + contactsLocation + " Number to call " + toCallNumber);
+                //console.log(contactsName + " " + contactsLocation + " Number to call " + toCallNumber);
 
-                ///Could iterate once, add all distances to priortiy queue here
-                ///Wait, Check if response accepted, if not continue w loop.
-                //else 
-                ///Nobody is willing to help :(
-
-                //Return number of person we want to call 
-                //--------may have to create callback----------
+               
+                emContacts.push(contact);
+                console.log(i + " User Num: " + contact.number);
                 i += 1;
-                console.log(i + " User Num: " + Object.values(dbValue[personsNumber].EmergencyContacts)[i]);
-                resolve(toCallNumber);
-
 
                 /*senderLocation = dbValue[personsNumber].Location;
 
@@ -148,30 +140,16 @@ exports.GetPersonToCall = function (personsNumber, personsLocation) {
 
                 //Add emergency contact to array
                 console.log(closestDistance);*/
+
+                if(i == Object.keys(dbValue[personsNumber].EmergencyContacts).length-1) loopDone = true;
             }
-
-
-
+            
+            if(loopDone)
+                resolve(emContacts); //Return number of person we want to call 
+ 
         }, function (errorObject) { ///Else if there was an error getting the data
             console.log("The read failed: " + errorObject.code);
             resolve("Error");
         })
     });
-
-
 }
-
-///Recursive function that calls itself until it finds an available number to call.
-//Can also be called at specific number position
-//Could pass the priorityQueue as a param to "emergencyContacts"
-///----Not in use yet----
-function returnContact(emergencyContacts, i) {
-    if (i >= Object.keys(dbValue[personsNumber].EmergencyContacts).length) return null;
-
-    //If we haven't found a person to call, keep going until we've reached the end of the db
-    returnContact(emergencyContacts, i++);
-
-}
-
-///Allow functions to be called by other files
-///module.exports = { GetPersonToCall }; This breaks file for some reason
