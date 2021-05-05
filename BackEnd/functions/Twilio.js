@@ -17,18 +17,18 @@ exports.SendText = function SendTextToUser(data){
     SendText(data.fromName, data.fromPhoneNumber, data.toName, data.toNumber, data.Location);
 }
 
-exports.DeclineContactRequest = functions.https.onCall((data, context) => {
-    DeclineContactRequest(data.fromName, data.fromPhoneNumber, data.toName, data.toNumber);
-});
-
 
 ///Ryans Part
 function SendText(fromName, fromNum, toName, toNumber, location) {
-    console.log("Sending Text to " + toName);
+    console.log("Sending Text to " + toNumber);
+    url = `https://us-central1-safeamigos-66c18.cloudfunctions.net/ContactDecline`;
+
+    ///Add number to url so we could know which number would be declining
+    url += "?number=" + fromNum;
 
     client.messages.create({
         body: fromName + ` needs your help!!\n\nCall ` + fromNum +
-        ` to help. \n\nClick ` + `https://us-central1-safeamigos-66c18.cloudfunctions.net/DeclineContactRequest 
+        ` to help. \n\nClick ` + url + `
         to decline. \n\nFind them at ` + location,
         from: "+19513632916",
         to: toNumber
