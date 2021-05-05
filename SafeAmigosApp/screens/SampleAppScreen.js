@@ -9,10 +9,11 @@ import {
 import React, { useState, useEffect } from 'react';
 import * as Location from 'expo-location';
 import Functionality from '../AppFunctionality';
-import Alert from 'react-bootstrap/Alert';
+
 
 ///Initialise our Function object
 let Function = new Functionality();
+//Function.UploadImage();
 
 ///Implementing Singleton Pattern for UI
 export default class Controller {

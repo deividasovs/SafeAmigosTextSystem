@@ -17,10 +17,29 @@ exports.SendText = function SendTextToUser(data){
     SendText(data.fromName, data.fromPhoneNumber, data.toName, data.toNumber, data.Location);
 }
 
-exports.DeclineContactRequest = functions.https.onCall((data, context) => {
-    DeclineContactRequest(data.fromName, data.fromPhoneNumber, data.toName, data.toNumber);
-});
 
+///Ryans Part
+function SendText(fromName, fromNum, toName, toNumber, location) {
+    console.log("Sending Text to " + toNumber);
+    url = `https://us-central1-safeamigos-66c18.cloudfunctions.net/ContactDecline`;
+
+    ///Add number to url so we could know which number would be declining
+    url += "?number=" + fromNum;
+
+    client.messages.create({
+        body: fromName + ` needs your help!!\n\nCall ` + fromNum +
+        ` to help. \n\nClick ` + url + `
+        to decline. \n\nFind them at ` + location,
+        from: "+19513632916",
+        to: toNumber
+    }, function(err, message) {     
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(message.sid)
+        }
+    })
+}
 
 ///Elliott's Part
 function SendCall(numberToCall, fromPhoneNumber, location) {
@@ -39,84 +58,3 @@ function SendCall(numberToCall, fromPhoneNumber, location) {
         }
     })
 }
-
-
-///Ryans Part
-function SendText(fromName, fromNum, toName, toNumber, location) {
-    console.log("Sending Text to " + toName);
-
-    client.messages.create({
-        body: fromName + ` needs your help!! Call ` + fromNum +
-        ` to help or click ` + `https://us-central1-safeamigos-66c18.cloudfunctions.net/DeclineContactRequest 
-        to decline`,
-        from: "+19513632916",
-        to: toNumber
-    }, function(err, message) {     
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(message.sid)
-        }
-    })
-}
-
-
-//Padraig's Part
-//Function to contact next emergency contact if call is rejected
-function NextContact() {
-    //Call firebase function by name and pass json parameters relating to user
-    var emergency_contacts = [fromPhoneNumber]
-    setTimeout(() => { this.setState({ timePassed: true }) }, 30)
-
-    for (i = 0; i < emergency_contacts.length; i++) {
-        SendCall(toNumber, fromPhoneNumber)
-        if (this.setState({ timePassed: true })) {
-            console.log("Call declined. Notifying next emergency contact")
-        } else {
-            console.log("Called Succesfully");
-            break;
-        }
-    }
-}
-
-
-function NextContact2(toNumber, fromPhoneNumber) {
-    var emergencyNum = toNumber;
-}
-
-/*These are not in use!!!
-//function for sending offer of emergency contact role
-function SendContactRequest(fromName, fromNum, toName, toNumber) {
-
-    client.messages.create({
-        body: 'You have been requested to be an emergency contact for: ' + fromName +
-            'on the SafeAmigos App. To accept, please click the following link: https://us-central1-safeamigos-66c18.cloudfunctions.net/AddEmergencyUser' +
-            'To decline, please click the following link: https://us-central1-safeamigos-66c18.cloudfunctions.net/DeclineContactRequest',
-        from: fromNum,
-        to: toNumber
-    }, function(err, message) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(message.sid)
-        }
-    })
-}
-
-//function for if someone declines responsibility of emergency contact
-function DeclineContactRequest(fromName, fromNum, toName, toNumber) {
-
-    client.messages.create({
-        body: 'The request for ' + toName + 'to be added as an emergency contact on your SafeAmigos profile has been declined',
-        from: toNumber,
-        to: fromNumber
-    }, function(err, message) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(message.sid)
-        }
-    })
-}*/
-
-
