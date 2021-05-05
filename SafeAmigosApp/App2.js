@@ -9,10 +9,6 @@ import {
   Text,
   SafeAreaView,
   Button,
-  Modal,
-  Pressable,
-  Alert,
-  AppRegistry,
   TextInput,
   useState,
   useEffect
@@ -34,38 +30,33 @@ function App() {
 function HomeScreen ({ navigation }) {
   return(
     <SafeAreaView>
-      <Text style={{ textAlign: "center", fontSize: 30, padding: 20}}>Welcome Back!</Text>
-      <View style={{ margin: 20, borderRadius: 10, borderWidth: 2 }}>
+      <Text style={{ textAlign: "center", fontSize: 30, padding: 20, fontWeight: 350}}>Welcome Back!</Text>
+      <View style={styles.button}>
          <Button style={styles.button}
       title = "Send Distress Signal"
-      color = "black"
+      color= "#FF8C00"
+      borderColor = "#FF8C00"
       onPress={() => {
               SendCall();
             }}
       />
       </View>
      
-      <View style={{ margin: 20, borderRadius: 10, borderWidth: 2, }}>
-      <Button
+      <View style={styles.button}>
+      <Button style={styles.button}
       title = "Add Emergency Contact"
-      color= "black"
+      color= "#FF8C00"
+      borderColor = "#FF8C00"
       onPress={() => navigation.navigate('CreateContact')}
     />
       </View>
   
-      <View style={{ margin: 20, borderRadius: 10, borderWidth: 2, }}>
-      <Button
+      <View style={styles.button}>
+      <Button style={styles.button}
       title = "Add Your Details"
-      color= "black"
+      color= "#FF8C00"
+      borderColor = "#FF8C00"
       onPress={() => navigation.navigate('User')}
-    />
-      </View>
-  
-      <View style={{ margin: 20, borderRadius: 10, borderWidth: 2, }}>
-      <Button
-      title = "Camera"
-      color= "black"
-     // onPress={( takePicture())}
     />
       </View>
       </SafeAreaView>
@@ -97,10 +88,11 @@ function CreateUserScreen() {
   maxLength={15}
  onChangeText={(text) => this.setNumber({number:text})}
 />
-<View style={{ margin: 20, borderRadius: 10, borderWidth: 2 }}>
-        <Button
+<View style={styles.button}>
+        <Button style={styles.button}
           title="Add/update details"
-          color="black"
+          color= "#FF8C00"
+          borderColor = "#FF8C00"
           onPress={() => {
             this.textInputNumber.clear();
             this.textInputName.clear();
@@ -137,10 +129,11 @@ onChangeText={name => this.setName({name})}
   maxLength={15}
  onChangeText={(text) => this.setNumber({number:text})}
 />
-<View style={{ margin: 20, borderRadius: 10, borderWidth: 2 }}>
-        <Button
+<View style={styles.button}>
+        <Button style={styles.button}
           title="Add contact"
-          color="black"
+          color= "#FF8C00"
+          borderColor = "#FF8C00"
           onPress={() => {
             this.textInputNumber.clear();
             this.textInputName.clear();
@@ -153,6 +146,12 @@ onChangeText={name => this.setName({name})}
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+  },
     header: {
       textAlign: "center",
       fontSize: 50,
@@ -169,7 +168,23 @@ const styles = StyleSheet.create({
       fontSize: 25,
       marginLeft: 10,
       padding: 10,
-    }
+    },
+    button: {
+      margin: 20,
+      borderRadius: 10,
+      borderWidth: 2,
+      borderColor: "#FF8C00",
+      color: "#FF8C00"
+    },
+    circle:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 300,
+    height: 150,
+    borderRadius: 150 / 2,
+    backgroundColor: "#D350BE",
+
+      }
   });
 
 export default App;
