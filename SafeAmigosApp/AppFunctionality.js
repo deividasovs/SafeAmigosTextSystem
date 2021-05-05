@@ -2,6 +2,8 @@ import * as firebase from 'firebase';
 require("firebase/functions");
 import "firebase/storage";
 
+const storage = firebase.storage();
+
 export default class Functionality {
 
 
@@ -158,7 +160,7 @@ export default class Functionality {
     UploadImage() {
 
         /*var Storage = firebase.app().storage("gs://safeamigos-66c18.appspot.com/Images");*/
-        var img = document.createElement("img");
+       /* var img = document.createElement("img");
 
         img.src = "image.png"
 
@@ -166,7 +168,13 @@ export default class Functionality {
 
         var metadata = { contentType: 'image/png', };
 
-        var UploadTask = storageRef.child('images/').put(img, metadata);
+        var UploadTask = storageRef.child('images/').put(img, metadata);*/
+
+        const [image,setImage] = useState(null);
+        setImage("image.png");
+
+        const upload = storage.ref(`images/${image.name}`).put(image);
+        
     };
 
 }
