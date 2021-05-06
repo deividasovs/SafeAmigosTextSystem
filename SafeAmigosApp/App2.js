@@ -97,6 +97,7 @@ onChangeText={name => this.setName({name})}
         />
       </View>
 
+
       <View style={styles.container>
       <Image source={require('./images/safeamigoslogo.png')} />
       <View/>
@@ -120,8 +121,9 @@ const styles = StyleSheet.create({
     input: {
       fontSize: 25,
       marginLeft: 10,
-      padding: 4,
+      padding: 15,
       borderWidth: 1,
+      borderRadius: 20,
       borderColor: "#20232a",
     },
     textStyle: {
