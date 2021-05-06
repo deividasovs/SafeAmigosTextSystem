@@ -1,6 +1,16 @@
+/*
+-Separate UI instances
+-Make sure variables get called
+-Resize stuff
+-Colour
+*/
+
+
+
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import 'react-native-gesture-handler';
 
 ///import libs
 import {
@@ -10,8 +20,7 @@ import {
   SafeAreaView,
   Button,
   TextInput,
-  useState,
-  useEffect
+  Image,
 } from 'react-native';
 
 const Stack = createStackNavigator();
@@ -21,7 +30,7 @@ function App() {
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="CreateContact" component={CreateEmergencyContactScreen} />
-        <Stack.Screen name="User" component={CreateUserScreen} />
+       
       </Stack.Navigator>
     </NavigationContainer>
   );
