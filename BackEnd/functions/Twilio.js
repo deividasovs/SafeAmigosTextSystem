@@ -1,8 +1,8 @@
 const functions = require("firebase-functions");
 
 //defining Twilio credentials
-var accountSid = "AC79b407975ae9f0b4d19af767e5da6b77";
-var authToken = "ea8845abc935e2fbfcce8ee4e18b8994";
+var accountSid = "AC895f8012d8375569596767cd1b8dc8cf";
+var authToken = "24a17c6e0491283d120ab06b6f4a54ac";
 
 var client = require('twilio')(accountSid, authToken); //defining client variable
 
@@ -30,7 +30,7 @@ function SendText(fromName, fromNum, toName, toNumber, location) {
         body: fromName + ` needs your help!!\n\nCall ` + fromNum +
         ` to help. \n\nClick ` + url + `
         to decline. \n\nFind them at ` + location,
-        from: "+19513632916",
+        from: "+12702136552",
         to: toNumber
     }, function(err, message) {     
         if (err) {

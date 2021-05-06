@@ -1,3 +1,0 @@
-This is the react application used for managing the front-end of the system.
-
-For now it should only contain basic input & notifications allowing for system testing & verification.

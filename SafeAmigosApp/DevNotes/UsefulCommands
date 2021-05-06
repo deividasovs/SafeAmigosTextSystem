@@ -1,6 +1,0 @@
-npx react-native init <projectname> //Create prject initially
-npx react-native start (run inside above project folder)
-npx react-native run-android ///run project within simulator
-
-cd android
-gradlew clean
