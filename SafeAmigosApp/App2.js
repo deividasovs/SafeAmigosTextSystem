@@ -49,60 +49,15 @@ function HomeScreen ({ navigation }) {
       borderColor = "#FF8C00"
       onPress={() => navigation.navigate('CreateContact')}
     />
-      </View>
-  
-      <View style={styles.button}>
-      <Button style={styles.button}
-      title = "Add Your Details"
-      color= "#FF8C00"
-      borderColor = "#FF8C00"
-      onPress={() => navigation.navigate('User')}
-    />
-      </View>
+      
+      <View style={styles.container>
+      <Image source={require('./images/safeamigoslogo.png')} />
+      <View/>
+      
       </SafeAreaView>
     );
   };
 
-
-function CreateUserScreen() {
-  return(
-  <SafeAreaView>
-    <Text style={styles.header}>Your Details</Text>
-
-<Text style={styles.textStyle}>Your Name:</Text>
-<TextInput ref={input => { this.textInputName = input }}
-  style={styles.input}
-  onChangeText={setName}
-  value={text}
-  placeholder="John Smith"
-  autoCorrect={false}
-  maxLength={40}
-  onChangeText={name => this.setName({name})}
-/>
-<Text style={styles.textStyle}>Your Phone Number:</Text>
-<TextInput ref={input => { this.textInputNumber = input }}
-  style={styles.input}
- onChangeText={setNumber}
-  value={number}
-  keyboardType="numeric"
-  maxLength={15}
- onChangeText={(text) => this.setNumber({number:text})}
-/>
-<View style={styles.button}>
-        <Button style={styles.button}
-          title="Add/update details"
-          color= "#FF8C00"
-          borderColor = "#FF8C00"
-          onPress={() => {
-            this.textInputNumber.clear();
-            this.textInputName.clear();
-            //Add user details
-          }}
-        />
-      </View>
-    </SafeAreaView>
-  );
-};
 
 
 function CreateEmergencyContactScreen () {
@@ -141,6 +96,11 @@ onChangeText={name => this.setName({name})}
           }}
         />
       </View>
+
+      <View style={styles.container>
+      <Image source={require('./images/safeamigoslogo.png')} />
+      <View/>
+      
     </SafeAreaView>
   );
 };
