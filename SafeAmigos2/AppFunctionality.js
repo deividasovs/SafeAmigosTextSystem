@@ -1,8 +1,5 @@
 import * as firebase from 'firebase';
 require("firebase/functions");
-//import "firebase/storage";
-
-//const storage = firebase.storage();
 
 export default class Functionality {
 
@@ -32,7 +29,6 @@ export default class Functionality {
 
     //Init our app
     constructor(props) {
-
         ///Initialize Firebase app
         if (!firebase.apps.length) {
             firebase.initializeApp(this.androidConfig);
@@ -49,12 +45,11 @@ export default class Functionality {
 
     }
 
-
-
-
     //Adds contact to our Firebase Database
     ///---TO DO--- Run this on app launch and only update last added contact  for every new contact added
     AddEmergencyContact(name, number) {
+        this.contactsName = name;
+        this.contactsNumber = number;
         firebase.functions()
             .httpsCallable('EmergencyContact')({ fromName: this.usersName, fromPhoneNumber: this.usersPhoneNumber, name: name, toNumber: number, location: this.userLocation })
             .then(response => {
@@ -67,6 +62,8 @@ export default class Functionality {
 
     ///Similar to emergency contact   above except it creates a new user entry in db 
     AddNewUser(name, number) {
+        this.usersName = name;
+        this.usersPhoneNumber = number;
         console.log("Adding " + name + " " + number + "TO Db");
         ///Get data from db and find the last entered contact
         firebase.database()
@@ -128,6 +125,11 @@ export default class Functionality {
                 console.log("Request Declined Succesfully");
             }).catch(() => console.log("Issue declining request"));
 
+    }
+
+    AddUser(name, number)
+    {
+        
     }
 
     //Temp Function  to decide if we should add a new user or add emergency contacts to that user
