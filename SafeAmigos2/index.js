@@ -1,5 +1,5 @@
 import {AppRegistry} from 'react-native';
-import App from './App2';
+import App from './App';
 import Function from './global'
 import {name as appName} from './app.json';
 

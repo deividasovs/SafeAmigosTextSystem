@@ -16,15 +16,12 @@ export default class Functionality {
 
     ///Firebase android configuration tokens
     androidConfig = {
-        clientId: '',
-        appId: '',
-        apiKey: '',
-        databaseURL: '',
-      
-        storageBucket: '',
-        // messagingSenderId: 'x',
-        projectId: '',
-        // enable persistence by adding the below flag
+        clientId: '110138948795-ug5ls9o3658bc64spef468tedfgi3s3e.apps.googleusercontent.com',
+        appId: '1:110138948795:android:f62dc6c1a519cf859dfd9e',
+        apiKey: 'AIzaSyCj_mbhS5e94psZD3DYRe5CJP_wJt6GkC8',
+        databaseURL: 'https://safeamigos-66c18-default-rtdb.europe-west1.firebasedatabase.app', //  databaseURL: "http://localhost:9000/database/safeamigos-66c18-default-rtdb/data/",
+        storageBucket: 'safeamigos-66c18.appspot.com',
+        projectId: 'safeamigos-66c18',
         persistence: true,
     };
 
@@ -39,10 +36,9 @@ export default class Functionality {
 
         //Set functions to run from emulator if in development mode
         if (__DEV__) {
-              console.log("--------in Emulator--------");
+            console.log("--------in Emulator--------");
             // If you are running on a physical device, replace http://localhost with the local ip of your PC. (http://192.168.x.x)
-              firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
-            //  firebase.database().useEmulator("localhost", 9000);
+            firebase.functions().useFunctionsEmulator('http://10.0.2.2:5001');
         }
 
     }
@@ -104,6 +100,7 @@ export default class Functionality {
 
     ///  to initiate a call to required phone number
     SendText() {
+        this.UploadFiles();
         console.log("Sending Text Message to " + this.contactsNumber);
         //Call firebase   by name and pass json parameters relating to user
         firebase.functions()
@@ -122,50 +119,24 @@ export default class Functionality {
             .then(response => {
                 console.log("Request Declined Succesfully");
             }).catch(() => console.log("Issue declining request"));
-
     }
 
-    /* AddUser(name, number)
-     {
-         
-     }
- 
-     //Temp Function  to decide if we should add a new user or add emergency contacts to that user
-     ChangePage(name, number) {
-         //If we should be at user page, then add new user to db, else add emergency contact under current Contact
-         if (this.isUserPage) {
-             console.log("----------Adding new user ---------");
-             this.usersName = name;
-             this.usersPhoneNumber = number;
-             this.AddNewUser(name, number);
-             this.isUserPage = false;
-         } else {
-             console.log("----------Adding new Emergency Contact-------");
-             this.contactsName = name;
-             this.contactsNumber = number;
-             this.AddEmergencyContact(name, number);
-         }
-     }
- */
+    ///Upload image and audio files to our Firebase Storage
+    UploadFiles() {
 
+        let reference = storage().ref("safeamigoslogo.png");
+        let task = reference.putFile("./FilesToUpload/safeamigoslogo.png");
 
-    UploadImage() {
+        task.then(() => {
+            console.log('Image uploaded to the bucket!');
+        }).catch((e) => console.log('uploading image error => ', e));
 
-        /*var Storage = firebase.app().storage("gs://safeamigos-66c18.appspot.com/Images");*/
-        /* var img = document.createElement("img");
- 
-         img.src = "image.png"
- 
-         const storageRef = firebase.storage().ref();
- 
-         var metadata = { contentType: 'image/png', };
- 
-         var UploadTask = storageRef.child('images/').put(img, metadata);*/
+        let audioReference = storage().ref("PING.mp3");
+        let audioTask = audioReference.putFile("./FilesToUpload/PING.mp3");
 
-        const [image, setImage] = useState(null);
-        setImage("image.png");
-
-        const upload = storage.ref(`images/${image.name}`).put(image);
+        audioTask.then(() => {
+            console.log('Audio uploaded to the bucket!');
+        }).catch((e) => console.log('uploading audio error => ', e));
 
     };
 

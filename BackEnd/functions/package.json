@@ -17,6 +17,7 @@
     "dotenv": "^8.2.0",
     "firebase-admin": "^9.2.0",
     "firebase-functions": "^3.11.0",
+    "haversine-distance": "^1.2.1",
     "twilio": "^3.59.0"
   },
   "devDependencies": {

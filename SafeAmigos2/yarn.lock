@@ -4751,6 +4751,11 @@
   dependencies:
     "function-bind" "^1.1.1"
 
+"haversine-distance@^1.2.1":
+  "integrity" "sha512-rQpG89d6NlAis0eqOSFXDqNU/GZcMPlHNVMqTSzD16niD9s1fDK8T6kwrK0WJ7OMU+iRNy3cgGYnNQihMqmaHg=="
+  "resolved" "https://registry.npmjs.org/haversine-distance/-/haversine-distance-1.2.1.tgz"
+  "version" "1.2.1"
+
 "hermes-engine@~0.7.0":
   "integrity" "sha512-E2DkRaO97gwL98LPhgfkMqhHiNsrAjIfEk3wWYn2Y31xdkdWn0572H7RnVcGujMJVqZNJvtknxlpsUb8Wzc3KA=="
   "resolved" "https://registry.npmjs.org/hermes-engine/-/hermes-engine-0.7.2.tgz"

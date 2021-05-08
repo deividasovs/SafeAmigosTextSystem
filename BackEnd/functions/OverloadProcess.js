@@ -59,7 +59,7 @@ function AddUser(name, number, location) {
         for (var i = 0; i < contactQueue.length; i++) {
             ///if our queue already contains this number, quit the function.
             if (contactQueue[i].number = number) {
-                return false; ////------------May have to turn this into a callback instead!!!!-------------
+                return false; 
             }
         }
 
@@ -79,7 +79,6 @@ function ProcessAllUsers() {
 
         while (contactQueue.length > 0) {
             var personToProcess = contactQueue.shift(); ///Shift for queue, pop for Stack
-         
             ///Once we found our person to message, find the correct user to contact
             FirebaseTools.GetEmergencyContacts(personToProcess.number, personToProcess.location)
                 .then(contacts => {
@@ -123,18 +122,16 @@ function KeepPoppingEmContacts(personToProcess) {
         })
 
         ///Once text message is sent out and nothing has happened, call this function again to get the next user
-        setTimeout(function(){KeepPoppingEmContacts(personToProcess)}, 10000); ///6000m = 6 seconds 
+        setTimeout(function(){KeepPoppingEmContacts(personToProcess)}, 100000); ///6000m = 6 seconds, sets how long this should timeout for 
     }
 }
-
-
 
 ///What to do if no contact accepted our request
 function NoContactsLeft() {
     console.log("Ran out of contacts");
 }
 
-
+//Our Person class that will be processed
 class Person {
 
     name;
@@ -165,30 +162,5 @@ class Person {
             resolve(this.emergencyContacts = emergencyContacts);
         });
     }
-
-    AddEmergencyContact(number, distance) {
-        contact = new Contact(number, distance);
-        this.emergencyContacts.push(contact);
-        emergencyContacts.sort(compare)
-    }
 }
 
-function compare(a, b) {
-    if (a.distance < b.distance) {
-        return -1;
-    }
-    if (a.distance > b.distance) {
-        return 1;
-    }
-    return 0;
-}
-
-class Contact {
-    number;
-    distance;
-
-    Contact(number, distance) {
-        this.number = number;
-        this.distance = distance;
-    }
-}

@@ -1,5 +1,3 @@
-const functions = require("firebase-functions");
-
 //defining Twilio credentials
 var accountSid = "ACb5bb8fd91aeefe5fdea8dc576bb6d207";
 var authToken = "0b08a9d693c7343d1fd8f1ffa0166f72";
