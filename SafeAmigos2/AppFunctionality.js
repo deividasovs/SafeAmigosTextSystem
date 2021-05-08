@@ -16,12 +16,12 @@ export default class Functionality {
 
     ///Firebase android configuration tokens
     androidConfig = {
-        clientId: '110138948795-ug5ls9o3658bc64spef468tedfgi3s3e.apps.googleusercontent.com',
-        appId: '1:110138948795:android:f62dc6c1a519cf859dfd9e',
-        apiKey: 'AIzaSyCj_mbhS5e94psZD3DYRe5CJP_wJt6GkC8',
-        databaseURL: 'https://safeamigos-66c18-default-rtdb.europe-west1.firebasedatabase.app', //  databaseURL: "http://localhost:9000/database/safeamigos-66c18-default-rtdb/data/",
-        storageBucket: 'safeamigos-66c18.appspot.com',
-        projectId: 'safeamigos-66c18',
+        clientId: '',
+        appId: '',
+        apiKey: '',
+        databaseURL: '', //  databaseURL: "http://localhost:9000/database/safeamigos-66c18-default-rtdb/data/",
+        storageBucket: '',
+        projectId: '',
         persistence: true,
     };
 
