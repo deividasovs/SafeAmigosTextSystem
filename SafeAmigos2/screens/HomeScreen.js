@@ -1,6 +1,10 @@
 import * as React from 'react';
 import 'react-native-gesture-handler';
 
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Setting a timer']);
+
 ///import libs
 import {
     StyleSheet,
@@ -9,57 +13,90 @@ import {
     SafeAreaView,
     Button,
     TextInput,
+    TouchableOpacity,
     Image,
 } from 'react-native';
 
 import Function from '../global';
 
 function Home({ navigation }) {
-    console.log("The user's location is: \n\n\n" + Function.userLocation);
     return (
         <SafeAreaView>
+            <View style={styles.container}>
+                <Image style={styles.image} source={require('../images/safeamigoslogo.png')} />
+            </View>
+
             <Text style={styles.header}>Welcome Back</Text>
             <View style={styles.BigDiv}>
-
                 <View style={styles.button2}>
-                    <Button
-                        title="Add Emergency Contact"
-                        color="#FF8C00"
-                        borderColor="#FF8C00"
-                        onPress={() => navigation.navigate('CreateContact')}
-                    />
+                    <TouchableOpacity
+                        style={{
+                            height: 80,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: "#FF8C00",
+                            borderRadius: 10,
+                            borderWidth: 2,
+                            borderColor: "#FF8C00",
+                            elevation: 5,
+                        }}
+
+
+                        onPress={() => navigation.navigate('CreateContact')}>
+                        <Text
+                            style={{
+                                color: "#ffffff",
+                                fontSize: 20,
+                            }}>Add Emergency Contact</Text>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.button1}>
-                    <Button
-                        title="Get Help"
-                        color="#FF0000"
+                    <TouchableOpacity
+                        style={{
+                            height: 100,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: "#FF0000",
+                        }}
+
                         onPress={() => {
                             Function.SendCall();
-                            Function.sendIt();
-                        }}
-                    />
+                            alert("Message sent out successfully");
+                        }}>
+                        <Text
+                            style={{
+                                color: "#ffffff",
+                                fontSize: 23,
+                                fontWeight: 'bold',
+                            }}>Get Help</Text>
+                    </TouchableOpacity>
                 </View>
-
-                <View style={styles.container} >
-
-                </View >
             </View>
 
         </SafeAreaView>
     );
 };
-//  <Image source={require('../images/safeamigoslogo.png')} />
 
 
 const styles = StyleSheet.create({
     header: {
         textAlign: "center",
-        fontSize: 50,
-        marginTop: 80
+        fontSize: 40,
+        marginTop: 10
     },
     BigDiv: {
-        marginTop: 100,
+        marginTop: 10,
+    },
+    image: {
+        width: 140,
+        height: 120,
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 80,
     },
     input: {
         fontSize: 25,
@@ -70,17 +107,11 @@ const styles = StyleSheet.create({
         borderColor: "#20232a",
     },
     button1: {
-        margin: 20,
-        borderRadius: 10,
-        borderWidth: 2,
-        borderColor: "#FF0000",
+        marginTop: 130
     },
     button2: {
         margin: 20,
-        borderRadius: 10,
-        borderWidth: 2,
-        borderColor: "#FF8C00",
-        color: "#FF8C00",
+        marginTop: 100
     },
     circle: {
         justifyContent: 'center',

@@ -1,70 +1,85 @@
 
-import * as React from 'react';
+import React, { useRef } from 'react';
 import 'react-native-gesture-handler';
 
 import Function from '../global';
 
+
 ///import libs
 import {
-  StyleSheet,
-  View,
-  Text,
-  SafeAreaView,
-  Button,
-  TextInput,
-  Image,
+    StyleSheet,
+    View,
+    Text,
+    SafeAreaView,
+    Button,
+    TextInput,
+    TouchableOpacity,
+    Image,
 } from 'react-native';
 
+import { LogBox } from 'react-native';
 
+LogBox.ignoreLogs(['Setting a timer']);
 
 function CreateEmergencyContactScreen() {
 
-    
+
     const [name, setName] = React.useState('');
     const [number, setNumber] = React.useState('');
-
-    Function.test();
 
     return (
         <SafeAreaView>
             <Text style={styles.header}>Contact Details</Text>
 
-            <Text style={styles.textStyle}>Name:</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={setName}
-                value={name}
-                placeholder="John Smith"
-                autoCorrect={false}
-                maxLength={40}
- 
-            />
-            <Text style={styles.textStyle}>Phone Number:</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={setNumber}
-                placeholder="0861234567"
-                value={number}
-                keyboardType="numeric"
-                maxLength={15}
- 
-            />
-            <View style={styles.button}>
-                <Button style={styles.button}
-                    title="Add contact"
-                    color="#FF8C00"
-                    borderColor="#FF8C00"
-                    onPress={() => {
-                        this.textInputNumber.clear();
-                        this.textInputName.clear();
-                        Function.AddEmergencyContact(name,number);
-                    }}
+            <View style={styles.inputDetails}>
+                <Text style={styles.textStyle}>Name:</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={setName}
+                    value={name}
+                    placeholder="John Smith"
+                    autoCorrect={false}
+                    maxLength={40}
+
+                />
+                <Text style={styles.textStyle}>Phone Number:</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={setNumber}
+                    placeholder="0861234567"
+                    value={number}
+                    keyboardType="numeric"
+                    maxLength={15}
+
                 />
             </View>
+            <View style={styles.button}>
+                <TouchableOpacity
+                    style={{
+                        height: 70,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: "#FF8C00",
+                        borderRadius: 10,
+                        borderWidth: 2,
+                        borderColor: "#FF8C00",
+                        elevation: 5,
+                    }}
+                    title="Add Contact"
 
-
-            <View style={styles.container} >
-                {/*<Image source={require('../images/safeamigoslogo.png')} />*/}
+                    onPress={() => {
+                        Function.AddEmergencyContact(name, number);
+                        alert("Emergency Contact added successfully");
+                        setName("");
+                        setNumber("");
+                    }}>
+                    <Text
+                        style={{
+                            color: "#ffffff",
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                        }}>Add Contact</Text>
+                </TouchableOpacity>
             </View>
 
         </SafeAreaView>
@@ -73,16 +88,10 @@ function CreateEmergencyContactScreen() {
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: 10,
-    },
     header: {
         textAlign: "center",
-        fontSize: 50,
-        marginTop: 50
+        fontSize: 40,
+        marginTop: 40
     },
     input: {
         fontSize: 25,
@@ -94,15 +103,16 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         fontSize: 25,
-        marginLeft: 10,
+        marginTop: 10,
         padding: 10,
     },
     button: {
+        margin: 30,
+        marginTop: 20
+    },
+    inputDetails: {
         margin: 20,
-        borderRadius: 10,
-        borderWidth: 2,
-        borderColor: "#FF8C00",
-        color: "#FF8C00"
+        marginTop: 10
     },
     circle: {
         justifyContent: 'center',

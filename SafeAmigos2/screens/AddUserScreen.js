@@ -1,5 +1,5 @@
 
-import React,{ useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'react-native-gesture-handler';
 
 import Function from '../global';
@@ -12,10 +12,14 @@ import {
     Button,
     TextInput,
     Image,
+    TouchableOpacity
 } from 'react-native';
 
 import * as Location from 'expo-location';
 
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Setting a timer']);
 
 function AddUserScreen({ navigation }) {
 
@@ -35,7 +39,7 @@ function AddUserScreen({ navigation }) {
 
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location);
-        })().catch(error => {console.log("The location error was: \n" + error)});
+        })().catch(error => { console.log("The location error was: \n" + error) });
     }, []);
 
     Function.userLocation = 'Waiting..';
@@ -43,21 +47,12 @@ function AddUserScreen({ navigation }) {
         Function.userLocation = errorMsg;
     } else if (location) {
         Function.userLocation = JSON.stringify(location);
-        console.log("HERE");
     }
 
-    console.log("The user's location is: \n\n" + Function.userLocation);
 
     return (
         <SafeAreaView>
-            {/* <View style={styles.container} >
-                {
-                    <Image source={require('../images/safeamigoslogo.png')}
-                        style={styles.image} />
-                }
-            </View>*/}
-
-            <Text style={styles.header}>Your Details</Text>
+            <Text style={styles.header}>Enter Your Details</Text>
 
             <View style={styles.inputDetails}>
                 <Text style={styles.textStyle}>Name:</Text>
@@ -82,16 +77,37 @@ function AddUserScreen({ navigation }) {
                 />
             </View>
             <View style={styles.buttonView}>
-                <Button
+                <TouchableOpacity
+                    style={{
+                        height: 70,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: "#FF8C00",
+                        borderRadius: 10,
+                        borderWidth: 2,
+                        borderColor: "#FF8C00",
+                        elevation: 5,
+                    }}
                     title="Set up account"
-                    color="#FF8C00"
-                    borderColor="#FF8C00"
+
                     onPress={() => {
                         navigation.replace('Home');
                         Function.AddNewUser(name, number);
-                    }}
-                />
+                    }}>
+                    <Text
+                        style={{
+                            color: "#ffffff",
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                        }}>Add Account</Text>
+                </TouchableOpacity>
             </View>
+            <View style={styles.container}>
+                <View style={styles.circle}>
+                    <Text style={styles.smallText}>Feel Safer & Reassured</Text>
+                </View>
+            </View>
+
         </SafeAreaView>
     );
 };
@@ -103,26 +119,16 @@ const styles = StyleSheet.create({
         fontSize: 40,
         marginTop: 40,
     },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: 50,
-    },
-    image: {
-        width: 210,
-        height: 180,
-        marginTop: 150,
-    },
     inputDetails: {
-        margin: 20
+        margin: 20,
+        marginTop: 10
     },
     input: {
-        fontSize: 20,
+        fontSize: 25,
         marginLeft: 10,
-        padding: 10,
+        padding: 15,
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: 20,
         borderColor: "#20232a",
     },
     textStyle: {
@@ -131,19 +137,26 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     buttonView: {
-        margin: 40,
-        borderRadius: 10,
-        borderWidth: 2,
-        borderColor: "#FF8C00",
-        color: "#FF8C00",
-        fontSize: 40,
+        margin: 30,
+        marginTop: 20
+    },
+    smallText: {
+        marginBottom: 130,
+        color: "#ffffff",
+        fontSize: 20,
+    },
+    container: {
+        marginTop: 200,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     circle: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: 300,
-        height: 150,
-        borderRadius: 150 / 2,
+        width: 400,
+        height: 200,
+        borderRadius: 300 ,
         backgroundColor: "#D350BE",
     }
 });

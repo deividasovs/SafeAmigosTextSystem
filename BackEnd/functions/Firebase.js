@@ -59,27 +59,6 @@ exports.emergencyContact = functions.https.onCall((data, context) => {
 });
 
 
-function NextContact2(dbValue, fromNumber) {
-
-    while (i < Object.keys(dbValue).length) {
-        i = 0;
-
-        ///Send call to users phone number from users phone number
-        SendCall(dbValue[Object.keys(dbValue)[i]].phone_number, fromNumber)
-        setTimeout(() => { this.setState({ timePassed: true }) }, 30)
-        if (this.setState({ timePassed: true })) {
-            console.log("Call declined. Notifying next emergency contact")
-            i++;
-        } else {
-            console.log("Called Succesfully");
-            break;
-        }
-    }
-}
-
-
-
-
 ////Function adds array of emergency contacts to our user
 exports.GetEmergencyContacts = function (personsNumber, personsLocation) {
 
@@ -100,7 +79,7 @@ exports.GetEmergencyContacts = function (personsNumber, personsLocation) {
             while (i < Object.keys(dbValue[personsNumber].EmergencyContacts).length) {
 
                 toCallNumber = Object.values(dbValue[personsNumber].EmergencyContacts)[i];
-
+                
                 //Iterate through outer array finding user fields correlating with the one we want to call
                 let contact = {
                     name:  dbValue[toCallNumber].Name,
@@ -113,7 +92,6 @@ exports.GetEmergencyContacts = function (personsNumber, personsLocation) {
                
                 emContacts.push(contact);
                 console.log(i + " User Num: " + contact.number);
-                i += 1;
 
                 /*senderLocation = dbValue[personsNumber].Location;
 
@@ -140,8 +118,14 @@ exports.GetEmergencyContacts = function (personsNumber, personsLocation) {
 
                 //Add emergency contact to array
                 console.log(closestDistance);*/
+                i += 1;
+                //console.log(Object.keys(dbValue[personsNumber].EmergencyContacts).length + " i " + i);
 
-                if(i == Object.keys(dbValue[personsNumber].EmergencyContacts).length-1) loopDone = true;
+                if(i >= Object.keys(dbValue[personsNumber].EmergencyContacts).length) 
+                {
+                
+                    loopDone = true;
+                }
             }
             
             if(loopDone)

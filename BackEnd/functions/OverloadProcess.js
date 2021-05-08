@@ -3,10 +3,6 @@
 -Put details into object
 -Put object into queue
 -Keep clearing queue while it's not empty
-
----ISSUE - ContactDeclined and KeepPoppingEmContctas functions having different values for peopleBeingProcessed
-
-
 */
 
 const functions = require("firebase-functions");
@@ -20,8 +16,9 @@ let peopleBeingProcessed = [];///!!!!NEED TO REMOVE FROM THIS, CHECK ABOVE!!!!!
 var ShouldStart = false;
 
 exports.AddNewUser = functions.https.onCall((data, context) => {
+  
     AddUser(data.Name, data.PhoneNumber, data.Location).then(() => ProcessAllUsers())
-        .catch((error) => console.log("Error Trying to process User " + error));
+        .catch((error) => console.log("\n\nError Trying to process User " + error));
 });
 
 exports.contactDeclined = functions.https.onRequest((request, response) => {
@@ -82,16 +79,11 @@ function ProcessAllUsers() {
 
         while (contactQueue.length > 0) {
             var personToProcess = contactQueue.shift(); ///Shift for queue, pop for Stack
-
+         
             ///Once we found our person to message, find the correct user to contact
-            //TwilioTools.SendText("", "", "", FirebaseTools.GetPersonToCall(personToProcess.Number, personToProcess.Location), "");
             FirebaseTools.GetEmergencyContacts(personToProcess.number, personToProcess.location)
                 .then(contacts => {
-                    /*TwilioTools.Call({
-                        toNumber: num, fromPhoneNumber: personToProcess.number, Location: personToProcess.location
-                    })*/
-
-                    //console.log("----------------" + personToProcess.name + personToProcess.number + num + personToProcess.location);
+                    console.log("----------------" + personToProcess.name + personToProcess.number + personToProcess.location);
 
                     personToProcess.SetEmergencyContacts(contacts)
                         .then(value => {
@@ -118,7 +110,7 @@ function KeepPoppingEmContacts(personToProcess) {
     if (personToProcess.GetEmergencyContacts().length <= 0) {
         //Find person to remove from our array and remove them
         for (i = 0; i < peopleBeingProcessed.length; i++) {
-            //if (peopleBeingProcessed[i].number == personToProcess.number) personToProcess.splice
+            if (peopleBeingProcessed[i].number == personToProcess.number) personToProcess.splice
         }
         return NoContactsLeft();
     }
@@ -131,7 +123,7 @@ function KeepPoppingEmContacts(personToProcess) {
         })
 
         ///Once text message is sent out and nothing has happened, call this function again to get the next user
-        setTimeout(function(){KeepPoppingEmContacts(personToProcess)}, 6000); ///6000m = 6 seconds 
+        setTimeout(function(){KeepPoppingEmContacts(personToProcess)}, 10000); ///6000m = 6 seconds 
     }
 }
 

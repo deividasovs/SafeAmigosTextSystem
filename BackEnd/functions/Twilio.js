@@ -1,14 +1,15 @@
 const functions = require("firebase-functions");
 
 //defining Twilio credentials
-var accountSid = "AC895f8012d8375569596767cd1b8dc8cf";
-var authToken = "24a17c6e0491283d120ab06b6f4a54ac";
+var accountSid = "ACb5bb8fd91aeefe5fdea8dc576bb6d207";
+var authToken = "0b08a9d693c7343d1fd8f1ffa0166f72";
 
 var client = require('twilio')(accountSid, authToken); //defining client variable
 
 ///https://stackoverflow.com/questions/51861909/firebase-callable-function-not-receiving-arguments
 //receiving details of whom to ring
 exports.Call= function SendCallToUser(data){
+    console.log("Should be calling");
     SendCall(data.toNumber, data.fromPhoneNumber, data.Location);
 }
 
@@ -30,11 +31,11 @@ function SendText(fromName, fromNum, toName, toNumber, location) {
         body: fromName + ` needs your help!!\n\nCall ` + fromNum +
         ` to help. \n\nClick ` + url + `
         to decline. \n\nFind them at ` + location,
-        from: "+12702136552",
+        from: "+12187890918",
         to: toNumber
     }, function(err, message) {     
         if (err) {
-            console.log(err);
+            console.log("We got a Twilio error :( " + err);
         } else {
             console.log(message.sid)
         }

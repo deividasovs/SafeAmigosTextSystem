@@ -21,16 +21,23 @@ function App() {
             backgroundColor: '#d350be',
           },
           headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
         }} >
+
         <Stack.Screen name="AddUserScreen" component={AddUserScreen}
-                  options={{
-                    title: 'Welcome to SafeAmigos!',
-                   }} />
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="CreateContact" component={CreateEmergencyContactScreen} />
+          options={{
+            title: 'Welcome to SafeAmigos!',
+          }} />
+
+        <Stack.Screen name="Home"
+          component={Home}
+        />
+
+        <Stack.Screen
+          name="CreateContact"
+          component={CreateEmergencyContactScreen}
+          options={{
+            title: 'Add Emergency Contact',
+          }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
