@@ -1,6 +1,6 @@
 import * as React from 'react';
 import 'react-native-gesture-handler';
-
+import LinearGradient from 'react-native-linear-gradient';
 import { LogBox } from 'react-native';
 
 LogBox.ignoreLogs(['Setting a timer']);
@@ -21,41 +21,20 @@ import Function from '../global';
 
 function Home({ navigation }) {
     return (
-        <SafeAreaView>
+        <SafeAreaView >
+            <View style={styles.BigDiv}>
             <View style={styles.container}>
                 <Image style={styles.image} source={require('../images/safeamigoslogo.png')} />
             </View>
 
-            <Text style={styles.header}>Welcome Back</Text>
-            <View style={styles.BigDiv}>
-                <View style={styles.button2}>
-                    <TouchableOpacity
-                        style={{
-                            height: 80,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            backgroundColor: "#FF8C00",
-                            borderRadius: 10,
-                            borderWidth: 2,
-                            borderColor: "#FF8C00",
-                            elevation: 5,
-                        }}
-
-
-                        onPress={() => navigation.navigate('CreateContact')}>
-                        <Text
-                            style={{
-                                color: "#ffffff",
-                                fontSize: 20,
-                            }}>Add Emergency Contact</Text>
-                    </TouchableOpacity>
-                </View>
-
                 <View style={styles.button1}>
                     <TouchableOpacity
                         style={{
-                            height: 100,
+                            height: 120,
+                            width: 120,
                             justifyContent: 'center',
+                            elevation: 5,
+                            borderRadius: 150 / 2,
                             alignItems: 'center',
                             backgroundColor: "#FF0000",
                         }}
@@ -67,36 +46,56 @@ function Home({ navigation }) {
                         <Text
                             style={{
                                 color: "#ffffff",
-                                fontSize: 23,
+                                fontSize: 24,
                                 fontWeight: 'bold',
-                            }}>Get Help</Text>
+                            }}>SOS</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.button2}>
+                    <TouchableOpacity
+                        style={{
+                            height: 80,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: "#FF8C00",
+                            borderRadius: 10,
+                            borderWidth: 2,
+                            width: 300,
+                            borderColor: "#FF8C00",
+                            elevation: 5,
+                        }}
+
+                        onPress={() => navigation.navigate('CreateContact')}>
+                        <Text
+                            style={{
+                                color: "#ffffff",
+                                fontSize: 24,
+                                fontWeight: 'bold'
+                            }}>Add Contact</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-
         </SafeAreaView>
     );
 };
 
 
 const styles = StyleSheet.create({
-    header: {
-        textAlign: "center",
-        fontSize: 40,
-        marginTop: 10
-    },
+
     BigDiv: {
-        marginTop: 10,
-    },
-    image: {
-        width: 140,
-        height: 120,
-    },
-    container: {
-        flex: 1,
+        marginTop: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 80,
+    },
+    image: {
+        width: 170,
+        height: 150,
+    },
+    container: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 30
     },
     input: {
         fontSize: 25,
@@ -107,21 +106,12 @@ const styles = StyleSheet.create({
         borderColor: "#20232a",
     },
     button1: {
-        marginTop: 130
+        marginTop: 50,
     },
     button2: {
         margin: 20,
         marginTop: 100
     },
-    circle: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 300,
-        height: 150,
-        borderRadius: 150 / 2,
-        backgroundColor: "#D350BE",
-
-    }
 });
 
 export default Home;

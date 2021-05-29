@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     header: {
         textAlign: "center",
         fontSize: 40,
-        marginTop: 40
+        marginTop: 40,
     },
     input: {
         fontSize: 25,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     },
     button: {
         margin: 30,
-        marginTop: 20
+        marginTop: 30
     },
     inputDetails: {
         margin: 20,

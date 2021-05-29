@@ -18,18 +18,21 @@ function App() {
       <Stack.Navigator initialRouteName="AddUserScreen"
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#d350be',
+            backgroundColor: '#D350BE',
           },
           headerTintColor: '#fff',
         }} >
 
         <Stack.Screen name="AddUserScreen" component={AddUserScreen}
           options={{
-            title: 'Welcome to SafeAmigos!',
+            title: '',
           }} />
 
         <Stack.Screen name="Home"
           component={Home}
+          options={{
+            title: '',
+          }}
         />
 
         <Stack.Screen

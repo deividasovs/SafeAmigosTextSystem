@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import 'react-native-gesture-handler';
-
+import LinearGradient from 'react-native-linear-gradient';
 import Function from '../global';
 ///import libs
 import {
@@ -51,63 +51,62 @@ function AddUserScreen({ navigation }) {
 
 
     return (
-        <SafeAreaView>
-            <Text style={styles.header}>Enter Your Details</Text>
+        <SafeAreaView >
+                <Text style={styles.header}>Your Details</Text>
 
-            <View style={styles.inputDetails}>
-                <Text style={styles.textStyle}>Name:</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={setName}
-                    value={name}
-                    placeholder="John Smith"
-                    autoCorrect={false}
-                    maxLength={40}
+                <View style={styles.inputDetails}>
+                    <Text style={styles.textStyle}>Name:</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setName}
+                        value={name}
+                        placeholder="John Smith"
+                        autoCorrect={false}
+                        maxLength={40}
 
-                />
-                <Text style={styles.textStyle}>Phone Number:</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={setNumber}
-                    placeholder="0861234567"
-                    value={number}
-                    keyboardType="numeric"
-                    maxLength={15}
+                    />
+                    <Text style={styles.textStyle}>Phone Number:</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={setNumber}
+                        placeholder="0861234567"
+                        value={number}
+                        keyboardType="numeric"
+                        maxLength={15}
 
-                />
-            </View>
-            <View style={styles.buttonView}>
-                <TouchableOpacity
-                    style={{
-                        height: 70,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: "#FF8C00",
-                        borderRadius: 10,
-                        borderWidth: 2,
-                        borderColor: "#FF8C00",
-                        elevation: 5,
-                    }}
-                    title="Set up account"
-
-                    onPress={() => {
-                        navigation.replace('Home');
-                        Function.AddNewUser(name, number);
-                    }}>
-                    <Text
-                        style={{
-                            color: "#ffffff",
-                            fontSize: 20,
-                            fontWeight: 'bold',
-                        }}>Add Account</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.container}>
-                <View style={styles.circle}>
-                    <Text style={styles.smallText}>Feel Safer & Reassured</Text>
+                    />
                 </View>
-            </View>
+                <View style={styles.buttonView}>
+                    <TouchableOpacity
+                        style={{
+                            height: 70,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: "#FF8C00",
+                            borderRadius: 10,
+                            borderWidth: 2,
+                            borderColor: "#FF8C00",
+                            elevation: 5,
+                        }}
+                        title="Set up account"
 
+                        onPress={() => {
+                            navigation.replace('Home');
+                            Function.AddNewUser(name, number);
+                        }}>
+                        <Text
+                            style={{
+                                color: "#ffffff",
+                                fontSize: 20,
+                                fontWeight: 'bold',
+                            }}>Add Details</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.container}>
+                    <View style={styles.circle}>
+                        <Text style={styles.smallText}>Feel Safer & Reassured</Text>
+                    </View>
+                </View>
         </SafeAreaView>
     );
 };
@@ -118,10 +117,14 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 40,
         marginTop: 40,
+        color: "#000000",
     },
     inputDetails: {
         margin: 20,
         marginTop: 10
+    },
+    bg: {
+       
     },
     input: {
         fontSize: 25,
@@ -130,20 +133,23 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 20,
         borderColor: "#20232a",
+        backgroundColor: "#ffffff"
     },
     textStyle: {
         fontSize: 25,
         marginTop: 10,
         padding: 10,
+        color: "#000000",
     },
     buttonView: {
         margin: 30,
-        marginTop: 20
+        marginTop: 30
     },
     smallText: {
-        marginBottom: 130,
-        color: "#ffffff",
+        marginBottom: 250,
+        color: "#000000",
         fontSize: 20,
+        fontStyle: 'italic'
     },
     container: {
         marginTop: 200,
@@ -154,10 +160,10 @@ const styles = StyleSheet.create({
     circle: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: 400,
-        height: 200,
-        borderRadius: 300 ,
-        backgroundColor: "#D350BE",
+        width: 350,
+        height: 280,
+        borderRadius: 300,
+        //backgroundColor: "#D350BE",
     }
 });
 

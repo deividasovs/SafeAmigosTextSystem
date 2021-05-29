@@ -1,4 +1,13 @@
 
+/*
+
+Note:
+For the system to find user's names and locations, they must have already set up an account and be visible in the database
+
+
+*/
+
+
 ///Link to our DB = https://safeamigos-66c18-default-rtdb.europe-west1.firebasedatabase.app/users.json?
 const functions = require("firebase-functions"); ///Make sure Firebase functions can be called
 const haversine = require("haversine-distance");
